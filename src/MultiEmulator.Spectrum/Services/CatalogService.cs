@@ -141,7 +141,7 @@ public sealed class CatalogService
                 }
             }
 
-            // Preferir listado durable del proyecto, luego LocalAppData, luego índice embebido.
+            // Preferir listado durable del proyecto, luego LocalAppData.
             foreach (string? candidate in new[]
                      {
                          ProjectCatalogPaths.ProjectCatalogCachePath(_platform),
@@ -156,7 +156,9 @@ public sealed class CatalogService
                     var json = await File.ReadAllTextAsync(candidate, ct);
                     _index = JsonSerializer.Deserialize<CatalogIndex>(json) ?? new CatalogIndex();
                     NormalizeEntries(_index, _platform);
-                    return;
+                    if (_index.Entries.Count >= MinUsefulCatalogCount)
+                        return;
+                    // Caché demasiado pequeña (semilla): seguir buscando.
                 }
                 catch
                 {
@@ -164,17 +166,41 @@ public sealed class CatalogService
                 }
             }
 
+            // Shards offline sc-games-prefix-*.json (p.ej. letra A ya exportada).
+            string? catalogDir = ProjectCatalogPaths.TryGetCatalogDir(_platform)
+                                 ?? Path.GetDirectoryName(localFallbackPath);
+            if (catalogDir != null)
+            {
+                var fromShards = SpectrumComputingListScraper.TryLoadPrefixShards(catalogDir);
+                if (fromShards != null && fromShards.Entries.Count > _index.Entries.Count)
+                {
+                    _index = fromShards;
+                    NormalizeEntries(_index, _platform);
+                    if (_index.Entries.Count >= MinUsefulCatalogCount)
+                        return;
+                }
+            }
+
+            // Índice embebido (semilla de humo: pocos títulos).
             if (File.Exists(localFallbackPath))
             {
                 try
                 {
-                    var json = await File.ReadAllTextAsync(localFallbackPath, ct);
-                    _index = JsonSerializer.Deserialize<CatalogIndex>(json) ?? new CatalogIndex();
-                    NormalizeEntries(_index, _platform);
+                    if (_index.Entries.Count < MinUsefulCatalogCount)
+                    {
+                        var json = await File.ReadAllTextAsync(localFallbackPath, ct);
+                        var seed = JsonSerializer.Deserialize<CatalogIndex>(json) ?? new CatalogIndex();
+                        if (seed.Entries.Count > _index.Entries.Count)
+                        {
+                            _index = seed;
+                            NormalizeEntries(_index, _platform);
+                        }
+                    }
                 }
                 catch
                 {
-                    ClearEntries();
+                    if (_index.Entries.Count == 0)
+                        ClearEntries();
                 }
             }
         }
@@ -184,6 +210,18 @@ public sealed class CatalogService
             ClearEntries();
         }
     }
+
+    /// <summary>
+    /// Por debajo: índice aún no es el listado SC completo (~3–4k juegos).
+    /// Los shards parciales (p.ej. solo letra A) también disparan rebuild.
+    /// </summary>
+    public const int MinUsefulCatalogCount = 100;
+    public const int MinFullSpectrumComputingCount = 2500;
+
+    /// <summary>True si falta el listado A–Z completo de Spectrum Computing.</summary>
+    public bool NeedsFullCatalogRebuild =>
+        EmulatorPlatformInfo.IsCatalogActive(_platform)
+        && _index.Entries.Count < MinFullSpectrumComputingCount;
 
     /// <summary>
     /// Vuelve a descargar el listado A–Z / 0–9 desde Spectrum Computing y lo guarda en caché local.

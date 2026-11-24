@@ -35,6 +35,9 @@ public sealed class SpectrumMachine
     private bool _arkanoidVsyncThrottle;
     private int _arkanoidFbArmT = -1;
     private bool _arkanoidFbLocked;
+    private bool _traceEarBit;
+    /// <summary>T de la instrucción ya enviados al beeper (antes de un OUT FE a mitad).</summary>
+    private int _beeperPartialDone;
 
     public SpectrumMachine()
     {
@@ -92,6 +95,28 @@ public sealed class SpectrumMachine
         set => _arkanoidVsyncThrottle = value;
     }
 
+    /// <summary>
+    /// Diagnóstico de FX: cuenta T en el wait 848F, flancos EAR y sitios de OUT (FE).
+    /// Inactivo por defecto; el coste es un bool en el bucle de frame.
+    /// </summary>
+    public bool BeeperTrace { get; set; }
+
+    public int TraceEarEdges { get; private set; }
+    public int TraceFeWrites { get; private set; }
+    public long TraceWaitT { get; private set; }
+    public long TraceRunT { get; private set; }
+    public Dictionary<int, int> TraceFeSites { get; } = new();
+
+    public void ResetBeeperTrace()
+    {
+        TraceEarEdges = 0;
+        TraceFeWrites = 0;
+        TraceWaitT = 0;
+        TraceRunT = 0;
+        TraceFeSites.Clear();
+        _traceEarBit = _ula.EarBit;
+    }
+
     public void SetMachine(MachineType type)
     {
         MachineType = type;
@@ -133,6 +158,7 @@ public sealed class SpectrumMachine
         _arkanoidVsyncThrottle = false;
         _arkanoidFbArmT = -1;
         _arkanoidFbLocked = false;
+        _beeperPartialDone = 0;
         _cpu.Registers.PC = 0;
         _cpu.Registers.SP = 0xFFFF;
         _cpu.Registers.I = 0x3F;
@@ -314,7 +340,15 @@ public sealed class SpectrumMachine
             ushort pcBefore = _cpu.Registers.PC;
             bool inWait = pcBefore is >= 0x848F and <= 0x8497;
             // Step() ya acumula Registers.TStates; no volver a sumar aquí.
-            AdvanceSides(_cpu.Step());
+            int stepT = _cpu.Step();
+            if (BeeperTrace)
+            {
+                TraceRunT += stepT;
+                if (inWait)
+                    TraceWaitT += stepT;
+            }
+
+            AdvanceSides(stepT);
 
             // Arkanoid: salida del wait → armar lock FB tras margen del doble CALL.
             if (_arkanoidVsyncThrottle && inWait && _cpu.Registers.PC == 0x8498)
@@ -373,6 +407,23 @@ public sealed class SpectrumMachine
         _tapeLoader.Pulses.PlayStandardBlocksViaEar = !inLdBytes && pc >= 0x5D00;
         _tapeLoader.AdvancePulses(t);
         _ula.TapeIn = _tapeLoader.EarLevel;
+
+        // Si hubo OUT FE a mitad de instrucción, esos T ya fueron al beeper al nivel anterior.
+        int already = _beeperPartialDone;
+        _beeperPartialDone = 0;
+        int remain = t - already;
+        if (remain > 0)
+            AdvanceBeeper(remain);
+    }
+
+    private void AdvanceBeeper(int t)
+    {
+        if (BeeperTrace && _ula.EarBit != _traceEarBit)
+        {
+            TraceEarEdges++;
+            _traceEarBit = _ula.EarBit;
+        }
+
         _beeper.Advance(t, _ula.EarBit, _ula.MicOut);
     }
 
@@ -566,6 +617,22 @@ public sealed class SpectrumMachine
 
         if ((lo & 1) == 0)
         {
+            if (BeeperTrace)
+            {
+                TraceFeWrites++;
+                int site = (_cpu.Registers.PC - 2) & 0xFFFF;
+                TraceFeSites.TryGetValue(site, out int n);
+                TraceFeSites[site] = n + 1;
+            }
+
+            // Flanco EAR en el T real del OUT (no al final de la instrucción).
+            // Crítico para PWM ~18 kHz de Arkanoid: el duty cycle salía aplastado.
+            int partial = _cpu.PartialTStates;
+            int pending = partial - _beeperPartialDone;
+            if (pending > 0)
+                AdvanceBeeper(pending);
+            _beeperPartialDone = partial;
+
             _ula.WriteFe(value);
             return;
         }

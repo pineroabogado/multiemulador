@@ -60,7 +60,7 @@ Incluyen regresión de **Arkanoid** (pala / pipeline FlashLoad), floating bus y 
 
 ### Pendiente conocido
 
-- **Arkanoid — FX / beeper:** el sonido de efectos en partida sigue sin oírse de forma fiable (otros juegos sí). Detalle y intentos fallidos en [docs/TIMING-ARKANOID.md](docs/TIMING-ARKANOID.md#pendiente--fx--beeper-abierto).
+- **Arkanoid — FX / beeper:** en partida siguen sin oírse de forma fiable (pala/ritmo OK; otros juegos sí). Ver [docs/TIMING-ARKANOID.md](docs/TIMING-ARKANOID.md#pendiente--fx--beeper-abierto).
 
 ## Legal — ROMs de sistema
 

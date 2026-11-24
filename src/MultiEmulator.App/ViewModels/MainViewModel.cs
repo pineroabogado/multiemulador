@@ -36,6 +36,7 @@ public partial class MainViewModel : ViewModelBase, IDisposable
     [ObservableProperty] private string _tapeLabel = "Sin cinta";
     [ObservableProperty] private bool _catalogRebuildBusy;
     [ObservableProperty] private string _catalogRebuildStatus = "";
+    [ObservableProperty] private string _catalogListSummary = "Mostrando 0 juegos";
     [ObservableProperty] private bool _favoritesOnly;
     [ObservableProperty] private IBrush _borderBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0xD7));
     [ObservableProperty] private string _catalogPlatformHint = "";
@@ -155,6 +156,7 @@ public partial class MainViewModel : ViewModelBase, IDisposable
             try { RefreshCatalog(); }
             catch { Status = $"{Status} · Catálogo no disponible"; }
             _ = RefreshCatalogWhenReadyAsync();
+            _ = EnsureFullSpectrumComputingCatalogAsync();
         }
         catch (Exception ex)
         {
@@ -185,6 +187,7 @@ public partial class MainViewModel : ViewModelBase, IDisposable
             CatalogResults.Clear();
             foreach (var e in items)
                 CatalogResults.Add(e);
+            UpdateCatalogListSummary();
             if (items.Count > 0) break;
         }
     }
@@ -206,6 +209,7 @@ public partial class MainViewModel : ViewModelBase, IDisposable
         CatalogResults.Clear();
         foreach (var e in FilterCatalog(_host.Catalog.Search(CatalogQuery)))
             CatalogResults.Add(e);
+        UpdateCatalogListSummary();
 
         if (keep != null)
         {
@@ -215,6 +219,14 @@ public partial class MainViewModel : ViewModelBase, IDisposable
             if (match != null)
                 SelectedEntry = match;
         }
+    }
+
+    private void UpdateCatalogListSummary()
+    {
+        int n = CatalogResults.Count;
+        CatalogListSummary = FavoritesOnly
+            ? $"Mostrando {n} favorito{(n == 1 ? "" : "s")}"
+            : $"Mostrando {n} juego{(n == 1 ? "" : "s")}";
     }
 
     [RelayCommand]
@@ -240,6 +252,7 @@ public partial class MainViewModel : ViewModelBase, IDisposable
         ApplyCatalogPlatformUi(item.Platform);
         SelectedEntry = null;
         CatalogResults.Clear();
+        UpdateCatalogListSummary();
         CatalogRebuildStatus = "Cargando catálogo…";
 
         try
@@ -281,12 +294,38 @@ public partial class MainViewModel : ViewModelBase, IDisposable
             RefreshCatalog();
     }
 
+    /// <summary>
+    /// El índice embebido solo trae una semilla (~6 juegos). Si no hay caché SC,
+    /// descarga solo el listado A–Z de Spectrum Computing.
+    /// </summary>
+    private async Task EnsureFullSpectrumComputingCatalogAsync()
+    {
+        try
+        {
+            // Dar tiempo a que el host termine de cargar el catálogo embebido/shards.
+            await Task.Delay(800);
+            if (!_host.Catalog.NeedsFullCatalogRebuild || !CatalogActionsEnabled)
+                return;
+
+            CatalogRebuildStatus =
+                $"Catálogo incompleto ({CatalogResults.Count} juegos). Descargando listado Spectrum Computing…";
+            Status = CatalogRebuildStatus;
+            await RebuildCatalogAsync();
+        }
+        catch (Exception ex)
+        {
+            CatalogRebuildStatus =
+                $"No se pudo completar el listado SC: {ex.Message}. Usa «Rehacer listado».";
+            Status = CatalogRebuildStatus;
+        }
+    }
+
     [RelayCommand]
     private async Task RebuildCatalogAsync()
     {
         if (CatalogRebuildBusy || !CatalogActionsEnabled) return;
         CatalogRebuildBusy = true;
-        CatalogRebuildStatus = "Rehaciendo listado…";
+        CatalogRebuildStatus = "Rehaciendo listado Spectrum Computing…";
         try
         {
             var progress = new Progress<string>(msg =>
@@ -297,7 +336,7 @@ public partial class MainViewModel : ViewModelBase, IDisposable
             int n = await _host.RebuildCatalogAsync(progress);
             CatalogQuery = "";
             RefreshCatalog();
-            CatalogRebuildStatus = $"Listado actualizado: {n} juegos";
+            CatalogRebuildStatus = $"Listado Spectrum Computing: {n} juegos";
             Status = CatalogRebuildStatus;
         }
         catch (Exception ex)

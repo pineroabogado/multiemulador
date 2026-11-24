@@ -724,10 +724,11 @@ public sealed class EmulatorHost : IDisposable
         try
         {
             // PCM 16-bit: más fiable con WaveOut que IEEE float (a veces sale en silencio).
+            // Sin DiscardOnBufferOverflow: el catch-up no debe tirar ráfagas FX (Arkanoid).
             var provider = new BufferedWaveProvider(new WaveFormat(44100, 16, 1))
             {
                 BufferLength = 44100 * 2, // 1 s
-                DiscardOnBufferOverflow = true
+                DiscardOnBufferOverflow = false
             };
             var waveOut = new WaveOutEvent { DesiredLatency = 80 };
             waveOut.Init(provider);
@@ -753,21 +754,32 @@ public sealed class EmulatorHost : IDisposable
     {
         if (_audio == null) return;
         const int samples = 882;
-        var buf = _audioScratch;
+        // Margen holgado sobre DesiredLatency (80 ms). Un tope de 120 ms dejaba
+        // 1 frame de holgura y en la práctica descartaba clics de Arkanoid.
+        const int maxBufferedBytes = 44100 * 2 * 400 / 1000; // 400 ms
         Span<float> pcm = stackalloc float[samples];
         lock (_sync)
             _machine.ReadAudioSamples(pcm);
+        if (_audio.BufferedBytes >= maxBufferedBytes)
+            return;
         if (Mute)
             pcm.Clear();
+        var buf = _audioScratch;
         for (int i = 0; i < samples; i++)
         {
             float s = Math.Clamp(pcm[i], -1f, 1f);
-            short v = (short)(s * 28000f);
+            short v = (short)(s * 32000f);
             buf[i * 2] = (byte)v;
             buf[i * 2 + 1] = (byte)(v >> 8);
         }
-        // Siempre alimentar; DiscardOnBufferOverflow evita crecimiento infinito.
-        _audio.AddSamples(buf, 0, samples * 2);
+        try
+        {
+            _audio.AddSamples(buf, 0, samples * 2);
+        }
+        catch (InvalidOperationException)
+        {
+            // Buffer lleno: saltar chunk (no DiscardOnBufferOverflow).
+        }
     }
 
     public void Dispose()

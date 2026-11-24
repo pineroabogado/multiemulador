@@ -5,22 +5,29 @@
       "id": "turbo-tzx-fastload",
       "matchKind": "tzx",
       "matchHasTurboBlocks": true,
-      "strategies": [ "FastLoadWarp", "TurboIrqPolicy" ],
-      "notes": "Cualquier TZX turbo → Fast Load warp; no forzar DI tras EAR turbo"
+      "strategies": [
+        "FastLoadWarp",
+        "TurboIrqPolicy"
+      ],
+      "notes": "Cualquier TZX turbo \u2192 Fast Load warp; no forzar DI tras EAR turbo"
     },
     {
       "id": "flashable-tap-iff",
       "matchKind": "tap",
       "matchCanFlashToUsr": true,
-      "strategies": [ "InstantFlashIffOn" ],
-      "notes": "TAP FlashLoad+USR → IFF ON tras USR"
+      "strategies": [
+        "InstantFlashIffOn"
+      ],
+      "notes": "TAP FlashLoad\u002BUSR \u2192 IFF ON tras USR"
     },
     {
       "id": "mid-load-z80-defer",
       "matchKind": "z80",
       "matchLikelyMidLoad": true,
-      "strategies": [ "DeferMidLoadZ80" ],
-      "notes": "Snapshot Soft Library mid-load → diferir si hay cinta"
+      "strategies": [
+        "DeferMidLoadZ80"
+      ],
+      "notes": "Snapshot Soft Library mid-load \u2192 diferir si hay cinta"
     }
   ],
   "solutions": {
@@ -36,7 +43,7 @@
         "DeferMidLoadZ80",
         "PreferTapWhenTzxNA"
       ],
-      "notes": "Preferir JUEGOS/TOSEC TAP sobre Soft Library Z80 mid-load; Flash+USR con IFF ON (stub Elite sin EI).",
+      "notes": "Preferir JUEGOS/TOSEC TAP sobre Soft Library Z80 mid-load; Flash\u002BUSR con IFF ON (stub Elite sin EI).",
       "lastSuccessUtc": "2026-11-24T00:00:00+00:00",
       "successCount": 1
     },
@@ -53,7 +60,7 @@
         "BioToxinHle",
         "TurboIrqPolicy"
       ],
-      "notes": "Preferir TZX (FlyingShark.tzx.zip) sobre TAP BioToxin; FastLoad×64 en turbo EAR; HLE si se fuerza TAP; no DI tras turbo.",
+      "notes": "Preferir TZX (FlyingShark.tzx.zip) sobre TAP BioToxin; FastLoad\u00D764 en turbo EAR; HLE si se fuerza TAP; no DI tras turbo.",
       "lastSuccessUtc": "2026-11-24T00:00:00+00:00",
       "successCount": 1
     },
@@ -72,8 +79,8 @@
         "HealthRetrySibling"
       ],
       "notes": "FB Fuse 14338 + IO contend OUT FE. VsyncLatch=FB lock tras wait+doble CALL 848F (1×/frame). PENDIENTE: FX beeper en partida no audible (ver docs/TIMING-ARKANOID.md).",
-      "lastSuccessUtc": "2026-11-24T00:00:00+00:00",
-      "successCount": 1
+      "lastSuccessUtc": "2026-11-24T17:06:06.1838266+00:00",
+      "successCount": 4
     },
     "zx-spectrum:title:GreenBeret": {
       "title": "Green Beret",
@@ -81,8 +88,10 @@
       "preferredFormat": "auto",
       "preferredSource": "spectrum-computing",
       "localFileHint": "GreenBeret.tap.zip",
-      "strategies": [ "UlaIrqContentionGeneral" ],
-      "notes": "Fix de timing IRQ/contention es general en ULA/SpectrumMachine (no solo este título). Sin override de formato.",
+      "strategies": [
+        "UlaIrqContentionGeneral"
+      ],
+      "notes": "Fix de timing IRQ/contention es general en ULA/SpectrumMachine (no solo este t\u00EDtulo). Sin override de formato.",
       "lastSuccessUtc": "2026-11-24T00:00:00+00:00",
       "successCount": 1
     },
@@ -90,8 +99,10 @@
       "title": "Galen",
       "titleStem": "Galen",
       "preferredFormat": "auto",
-      "strategies": [ "MediaOnly" ],
-      "notes": "SCR decode / mapa de direcciones es fix global ScrDecoder — no estrategia de carga por juego.",
+      "strategies": [
+        "MediaOnly"
+      ],
+      "notes": "SCR decode / mapa de direcciones es fix global ScrDecoder \u2014 no estrategia de carga por juego.",
       "lastSuccessUtc": "2026-11-24T00:00:00+00:00",
       "successCount": 0
     }

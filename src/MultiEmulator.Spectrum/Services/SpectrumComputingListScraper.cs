@@ -1,4 +1,6 @@
 using System.Net;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 
 namespace MultiEmulator.Spectrum.Services;
@@ -114,5 +116,95 @@ public static partial class SpectrumComputingListScraper
         }
 
         return SpectrumComputingUrls.ToFileStem(cleaned);
+    }
+
+    /// <summary>
+    /// Carga shards offline <c>sc-games-prefix-*.json</c> (exportes del listado SC)
+    /// y los convierte a <see cref="CatalogIndex"/>.
+    /// </summary>
+    public static CatalogIndex? TryLoadPrefixShards(string catalogDir)
+    {
+        if (string.IsNullOrWhiteSpace(catalogDir) || !Directory.Exists(catalogDir))
+            return null;
+
+        string[] files = Directory.GetFiles(catalogDir, "sc-games-prefix-*.json");
+        if (files.Length == 0)
+            return null;
+
+        var byId = new Dictionary<int, CatalogEntry>();
+        foreach (string path in files.OrderBy(f => f, StringComparer.OrdinalIgnoreCase))
+        {
+            try
+            {
+                string json = File.ReadAllText(path);
+                var shard = JsonSerializer.Deserialize<PrefixShardFile>(json);
+                if (shard?.Games == null)
+                    continue;
+
+                foreach (var g in shard.Games)
+                {
+                    if (g.Id <= 0 || byId.ContainsKey(g.Id))
+                        continue;
+
+                    string slug = g.Slug ?? "";
+                    string title = g.Title ?? $"SC#{g.Id}";
+                    string stem = StemFromSlugOrTitle(slug, title);
+                    var urls = SpectrumComputingUrls.EnumerateGameZipUrls(stem, g.Id);
+                    byId[g.Id] = new CatalogEntry
+                    {
+                        Id = $"sc-{g.Id}",
+                        Title = title,
+                        Machine = "48k",
+                        Format = ".tap.zip",
+                        ScFile = stem,
+                        ScId = g.Id,
+                        ScSlug = slug,
+                        EntryUrl = !string.IsNullOrWhiteSpace(g.EntryUrl)
+                            ? g.EntryUrl
+                            : SpectrumComputingUrls.BuildEntryUrl(g.Id, slug),
+                        Url = urls[0],
+                        License = "spectrum-computing",
+                        Notes = $"SC#{g.Id} {slug}"
+                    };
+                }
+            }
+            catch
+            {
+                // Shard ilegible: seguir con el resto.
+            }
+        }
+
+        if (byId.Count == 0)
+            return null;
+
+        return new CatalogIndex
+        {
+            Version = 3,
+            Platform = EmulatorPlatformInfo.Id(EmulatorPlatform.ZxSpectrum),
+            Entries = byId.Values
+                .OrderBy(e => e.Title, StringComparer.OrdinalIgnoreCase)
+                .ToList()
+        };
+    }
+
+    private sealed class PrefixShardFile
+    {
+        [JsonPropertyName("games")]
+        public List<PrefixShardGame>? Games { get; set; }
+    }
+
+    private sealed class PrefixShardGame
+    {
+        [JsonPropertyName("id")]
+        public int Id { get; set; }
+
+        [JsonPropertyName("title")]
+        public string? Title { get; set; }
+
+        [JsonPropertyName("slug")]
+        public string? Slug { get; set; }
+
+        [JsonPropertyName("entryUrl")]
+        public string? EntryUrl { get; set; }
     }
 }

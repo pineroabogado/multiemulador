@@ -39,26 +39,31 @@ Ninguno de los cinco de `EMULADORES/README.md` parchea Arkanoid por título:
 
 ## Pendiente — FX / beeper (abierto)
 
-**Estado: no resuelto.** En partida el usuario sigue sin oír los efectos de sonido de Arkanoid, mientras otros juegos sí tienen FX audibles.
+**Estado: PENDIENTE (2026-11-24).** En partida el usuario **sigue sin oír** los efectos de Arkanoid
+tras varios intentos. Pala y ritmo 1× sí están OK. Otros juegos sí tienen FX audibles.
 
-### Qué sí está bien (medido / contrastado)
+### Evidencia ya medida (`ArkanoidBeeperTraceTests`)
 
-- Host de audio OK (PCM16; otros títulos suenan).
-- El núcleo genera `OUT (FE)` / energía AC en el beeper en diagnósticos (`F070`…); `MuteBeeper` no aplica en partida.
-- Pala y ritmo: FB Fuse 14338 + `PartialTStates`, contención I/O ULA, sync 1×/frame (FB lock tras wait + margen del doble `CALL 848F`).
+- Núcleo: `MuteBeeper=false`, throttle ON, rutina `@F089`/`@F0AB` con muchos `OUT (FE)`.
+- Portadora EAR ~**18 kHz** (~96 T/flanco); lo audible debería ser la envolvente PWM.
+- Hay energía en el buffer / WAV de diagnóstico (`JUEGOS/arkanoid-beeper.wav`, no versionado);
+  **eso no se traduce en FX percibidos en la app.**
 
-### Intentos que no cerraron el hueco percibido
+### Intentos que no cerraron el hueco (no reabrir a ciegas)
 
-| Enfoque | Efecto colateral |
-|---------|------------------|
-| Latch FB “una vez/frame” agresivo | Ritmo OK, FX muy reducidos / silencio |
-| Parche wait `848F` → trampolín `EBA4` | Rompe doble `CALL` `@8E8C`; silencea beeper |
-| Skip-to-frame-end en re-wait | Mata CPU del FX del resto del frame |
-| Throttle host / FB lock diferido | Mejora sync; el usuario sigue sin oír FX |
-| Solo contención I/O Fuse | Energía en buffer; ritmo variable; FX no percibidos |
+| Enfoque | Resultado |
+|---------|-----------|
+| Latch FB agresivo / trampolín `EBA4` / skip-to-frame-end | Rompe ritmo o silencia más |
+| Quitar `DiscardOnBufferOverflow` + tope cola 400 ms | Usuario: sigue sin FX |
+| LPF/DC “abiertos” | No basta |
+| Beeper Fuse-like (caja + ULA asimétrico + HPF 750 Hz) | Usuario: sigue sin FX |
+| Flanco EAR en el T del `OUT (FE)` | Hecho; no resolvió la percepción |
 
-### Pista para retomar (sin implementar ahora)
+### Pista para retomar
 
-Los cinco emuladores de referencia **no** parchean Arkanoid: FB + contención I/O bastan allí. La discrepancia puede estar en el **pipeline host** (bomba 882 muestras vs ráfagas del beeper), en el **orden wait/sonido** del bucle del juego bajo nuestro lock, o en un detalle fino de fase del FB distinto a Spectaculator. Contrastar de nuevo con Spectaculator lado a lado y trazar `EAR` edges solo en frames con impacto de bola.
+Contrastar **lado a lado con Spectaculator/Fuse** el mismo TAP en partida (golpe bola/ladrillo),
+capturar PCM de ambos y comparar. Revisar si el vsync latch deja CPU al beeper en los frames
+de impacto, o si el host WaveOut/dispositivo descarta distinto que el WAV de test.
+Referencias: Fuse `speaker_filter`/`ula_filter`, bootcamp PWM 1-bit.
 
-**No seguir iterando parches por título hasta tener esa evidencia.**
+**No parchear Arkanoid por título** hasta tener esa comparación.

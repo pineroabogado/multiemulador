@@ -166,104 +166,116 @@
               IsVisible="{Binding ToolsOpen}">
         <Grid ColumnDefinitions="270,*">
 
-          <!-- Columna izquierda: cabecera + lista (*) + cinta/POKE (scroll) -->
+          <!-- Columna izquierda: cabecera (acotada) + lista (*) + cinta/POKE (compacto).
+               Antes Auto+*+Auto(260) aplastaba la lista a ~2 filas. -->
           <Grid Grid.Column="0" Margin="10,10,6,10" RowDefinitions="Auto,*,Auto">
-            <StackPanel Grid.Row="0" Spacing="6">
-              <Button Classes="chrome" HorizontalAlignment="Right"
-                      Content="Cerrar" Command="{Binding ToggleToolsCommand}" />
-              <TextBlock Text="Catálogo" FontWeight="Bold" Foreground="White" />
-              <TextBlock Text="Emulador" FontSize="11" Foreground="White" Opacity="0.85" />
-              <ItemsControl ItemsSource="{Binding CatalogPlatforms}">
-                <ItemsControl.ItemsPanel>
-                  <ItemsPanelTemplate>
-                    <WrapPanel Orientation="Horizontal" />
-                  </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                  <!-- Sin cast ((vm:MainViewModel)…): en DataTemplate diferido Avalonia crasheaba
-                       con «Unable to resolve type vm:MainViewModel» al materializar la lista. -->
-                  <DataTemplate x:CompileBindings="False">
-                    <Button Classes="chrome"
-                            Margin="0,0,6,4"
-                            Content="{Binding ButtonLabel}"
-                            Opacity="{Binding ButtonOpacity}"
-                            Command="{Binding DataContext.SelectCatalogPlatformCommand, ElementName=RootWindow}"
-                            CommandParameter="{Binding}"
-                            ToolTip.Tip="{Binding DisplayName}" />
-                  </DataTemplate>
-                </ItemsControl.ItemTemplate>
-              </ItemsControl>
-              <TextBlock Text="{Binding CatalogPlatformHint}" FontSize="11"
-                         Foreground="White" Opacity="0.9" TextWrapping="Wrap" />
-              <TextBox Watermark="Buscar…" Text="{Binding CatalogQuery}"
-                       IsEnabled="{Binding CatalogActionsEnabled}"
-                       Foreground="White" Background="#000080" CaretBrush="White" />
-              <Grid ColumnDefinitions="*,*">
-                <Button Grid.Column="0" Classes="chrome" Margin="0,0,4,0"
-                        Content="Buscar" Command="{Binding RefreshCatalogCommand}"
-                        IsEnabled="{Binding CatalogActionsEnabled}" />
-                <Button Grid.Column="1" Classes="chrome" Margin="4,0,0,0"
-                        Content="Rehacer listado"
-                        Command="{Binding RebuildCatalogCommand}"
-                        IsEnabled="{Binding CatalogActionsEnabled}"
-                        ToolTip.Tip="Descarga de nuevo el catálogo A–Z (solo plataformas activas)" />
-              </Grid>
-              <CheckBox Content="Solo favoritos"
-                        IsChecked="{Binding FavoritesOnly}"
-                        IsEnabled="{Binding CatalogActionsEnabled}"
-                        Foreground="White" />
-              <TextBlock Text="Fuente ROM" FontSize="11" Foreground="White" Opacity="0.9"
-                         Margin="0,4,0,0" />
-              <ComboBox ItemsSource="{Binding RomDownloadSources}"
-                        SelectedItem="{Binding SelectedRomDownloadSource}"
-                        IsEnabled="{Binding CatalogActionsEnabled}"
-                        HorizontalAlignment="Stretch"
-                        Foreground="White" Background="#000080"
-                        ToolTip.Tip="Fuente preferida (se prueba primero). Luego siempre cascada: Spectrum Computing → Software Library → TOSEC">
-                <ComboBox.ItemTemplate>
-                  <DataTemplate x:DataType="vm:RomDownloadSourceOption">
-                    <TextBlock Text="{Binding DisplayName}" Foreground="White" />
-                  </DataTemplate>
-                </ComboBox.ItemTemplate>
-              </ComboBox>
-              <TextBlock Text="Formato" FontSize="11" Foreground="White" Opacity="0.9"
-                         Margin="0,4,0,0" />
-              <ComboBox ItemsSource="{Binding RomMediaFormats}"
-                        SelectedItem="{Binding SelectedRomMediaFormat}"
-                        IsEnabled="{Binding CatalogActionsEnabled}"
-                        HorizontalAlignment="Stretch"
-                        Foreground="White" Background="#000080"
-                        ToolTip.Tip="Preferencia de archivo: Auto (TZX si conviene), TAP, TZX, Z80, SNA o DSK">
-                <ComboBox.ItemTemplate>
-                  <DataTemplate x:DataType="vm:RomMediaFormatOption">
-                    <TextBlock Text="{Binding DisplayName}" Foreground="White" />
-                  </DataTemplate>
-                </ComboBox.ItemTemplate>
-              </ComboBox>
-              <TextBlock Text="{Binding CatalogRebuildStatus}" FontSize="11"
-                         Foreground="White" Opacity="0.9" TextWrapping="Wrap" />
-            </StackPanel>
+            <ScrollViewer Grid.Row="0"
+                          MaxHeight="200"
+                          VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Disabled">
+              <StackPanel Spacing="6">
+                <Button Classes="chrome" HorizontalAlignment="Right"
+                        Content="Cerrar" Command="{Binding ToggleToolsCommand}" />
+                <TextBlock Text="Catálogo" FontWeight="Bold" Foreground="White" />
+                <TextBlock Text="Emulador" FontSize="11" Foreground="White" Opacity="0.85" />
+                <ItemsControl ItemsSource="{Binding CatalogPlatforms}">
+                  <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                      <WrapPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                  </ItemsControl.ItemsPanel>
+                  <ItemsControl.ItemTemplate>
+                    <!-- Sin cast ((vm:MainViewModel)…): en DataTemplate diferido Avalonia crasheaba
+                         con «Unable to resolve type vm:MainViewModel» al materializar la lista. -->
+                    <DataTemplate x:CompileBindings="False">
+                      <Button Classes="chrome"
+                              Margin="0,0,6,4"
+                              Content="{Binding ButtonLabel}"
+                              Opacity="{Binding ButtonOpacity}"
+                              Command="{Binding DataContext.SelectCatalogPlatformCommand, ElementName=RootWindow}"
+                              CommandParameter="{Binding}"
+                              ToolTip.Tip="{Binding DisplayName}" />
+                    </DataTemplate>
+                  </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <TextBlock Text="{Binding CatalogPlatformHint}" FontSize="11"
+                           Foreground="White" Opacity="0.9" TextWrapping="Wrap" />
+                <TextBox Watermark="Buscar…" Text="{Binding CatalogQuery}"
+                         IsEnabled="{Binding CatalogActionsEnabled}"
+                         Foreground="White" Background="#000080" CaretBrush="White" />
+                <Grid ColumnDefinitions="*,*">
+                  <Button Grid.Column="0" Classes="chrome" Margin="0,0,4,0"
+                          Content="Buscar" Command="{Binding RefreshCatalogCommand}"
+                          IsEnabled="{Binding CatalogActionsEnabled}" />
+                  <Button Grid.Column="1" Classes="chrome" Margin="4,0,0,0"
+                          Content="Rehacer listado"
+                          Command="{Binding RebuildCatalogCommand}"
+                          IsEnabled="{Binding CatalogActionsEnabled}"
+                          ToolTip.Tip="Descarga de nuevo el catálogo A–Z (solo plataformas activas)" />
+                </Grid>
+                <CheckBox Content="Solo favoritos"
+                          IsChecked="{Binding FavoritesOnly}"
+                          IsEnabled="{Binding CatalogActionsEnabled}"
+                          Foreground="White" />
+                <TextBlock Text="Fuente ROM" FontSize="11" Foreground="White" Opacity="0.9"
+                           Margin="0,4,0,0" />
+                <ComboBox ItemsSource="{Binding RomDownloadSources}"
+                          SelectedItem="{Binding SelectedRomDownloadSource}"
+                          IsEnabled="{Binding CatalogActionsEnabled}"
+                          HorizontalAlignment="Stretch"
+                          Foreground="White" Background="#000080"
+                          ToolTip.Tip="Fuente preferida (se prueba primero). Luego siempre cascada: Spectrum Computing → Software Library → TOSEC">
+                  <ComboBox.ItemTemplate>
+                    <DataTemplate x:DataType="vm:RomDownloadSourceOption">
+                      <TextBlock Text="{Binding DisplayName}" Foreground="White" />
+                    </DataTemplate>
+                  </ComboBox.ItemTemplate>
+                </ComboBox>
+                <TextBlock Text="Formato" FontSize="11" Foreground="White" Opacity="0.9"
+                           Margin="0,4,0,0" />
+                <ComboBox ItemsSource="{Binding RomMediaFormats}"
+                          SelectedItem="{Binding SelectedRomMediaFormat}"
+                          IsEnabled="{Binding CatalogActionsEnabled}"
+                          HorizontalAlignment="Stretch"
+                          Foreground="White" Background="#000080"
+                          ToolTip.Tip="Preferencia de archivo: Auto (TZX si conviene), TAP, TZX, Z80, SNA o DSK">
+                  <ComboBox.ItemTemplate>
+                    <DataTemplate x:DataType="vm:RomMediaFormatOption">
+                      <TextBlock Text="{Binding DisplayName}" Foreground="White" />
+                    </DataTemplate>
+                  </ComboBox.ItemTemplate>
+                </ComboBox>
+                <TextBlock Text="{Binding CatalogRebuildStatus}" FontSize="11"
+                           Foreground="White" Opacity="0.9" TextWrapping="Wrap" />
+              </StackPanel>
+            </ScrollViewer>
 
-            <ListBox Grid.Row="1"
-                     Margin="0,8,0,8"
-                     MinHeight="80"
-                     Background="#000080" Foreground="White"
-                     ItemsSource="{Binding CatalogResults}"
-                     SelectedItem="{Binding SelectedEntry}">
-              <ListBox.ItemTemplate>
-                <DataTemplate>
-                  <StackPanel Margin="0,2">
-                    <TextBlock Text="{Binding Title}" FontWeight="SemiBold" Foreground="White"
-                               TextTrimming="CharacterEllipsis" />
-                    <TextBlock Opacity="0.85" FontSize="11" Foreground="White"
-                               Text="{Binding Machine, StringFormat=Máquina: {0}}" />
-                  </StackPanel>
-                </DataTemplate>
-              </ListBox.ItemTemplate>
-            </ListBox>
+            <DockPanel Grid.Row="1" Margin="0,8,0,8" MinHeight="220">
+              <TextBlock DockPanel.Dock="Top"
+                         Text="{Binding CatalogListSummary}"
+                         FontSize="11" Foreground="White" Opacity="0.9"
+                         Margin="0,0,0,4" />
+              <ListBox Background="#000080" Foreground="White"
+                       VerticalAlignment="Stretch"
+                       ScrollViewer.VerticalScrollBarVisibility="Visible"
+                       ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                       ItemsSource="{Binding CatalogResults}"
+                       SelectedItem="{Binding SelectedEntry}">
+                <ListBox.ItemTemplate>
+                  <DataTemplate>
+                    <StackPanel Margin="0,2">
+                      <TextBlock Text="{Binding Title}" FontWeight="SemiBold" Foreground="White"
+                                 TextTrimming="CharacterEllipsis" />
+                      <TextBlock Opacity="0.85" FontSize="11" Foreground="White"
+                                 Text="{Binding Machine, StringFormat=Máquina: {0}}" />
+                    </StackPanel>
+                  </DataTemplate>
+                </ListBox.ItemTemplate>
+              </ListBox>
+            </DockPanel>
 
             <ScrollViewer Grid.Row="2"
-                          MaxHeight="260"
+                          MaxHeight="150"
                           VerticalScrollBarVisibility="Auto"
                           HorizontalScrollBarVisibility="Disabled">
               <StackPanel Spacing="8">
