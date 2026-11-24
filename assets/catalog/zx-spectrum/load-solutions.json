@@ -1,0 +1,99 @@
+{
+  "version": 1,
+  "patterns": [
+    {
+      "id": "turbo-tzx-fastload",
+      "matchKind": "tzx",
+      "matchHasTurboBlocks": true,
+      "strategies": [ "FastLoadWarp", "TurboIrqPolicy" ],
+      "notes": "Cualquier TZX turbo → Fast Load warp; no forzar DI tras EAR turbo"
+    },
+    {
+      "id": "flashable-tap-iff",
+      "matchKind": "tap",
+      "matchCanFlashToUsr": true,
+      "strategies": [ "InstantFlashIffOn" ],
+      "notes": "TAP FlashLoad+USR → IFF ON tras USR"
+    },
+    {
+      "id": "mid-load-z80-defer",
+      "matchKind": "z80",
+      "matchLikelyMidLoad": true,
+      "strategies": [ "DeferMidLoadZ80" ],
+      "notes": "Snapshot Soft Library mid-load → diferir si hay cinta"
+    }
+  ],
+  "solutions": {
+    "zx-spectrum:sc:9297": {
+      "title": "1942",
+      "scId": 9297,
+      "titleStem": "1942",
+      "preferredFormat": "tap",
+      "preferredSource": "tosec",
+      "localFileHint": "1942.tap.zip",
+      "strategies": [
+        "InstantFlashIffOn",
+        "DeferMidLoadZ80",
+        "PreferTapWhenTzxNA"
+      ],
+      "notes": "Preferir JUEGOS/TOSEC TAP sobre Soft Library Z80 mid-load; Flash+USR con IFF ON (stub Elite sin EI).",
+      "lastSuccessUtc": "2026-11-24T00:00:00+00:00",
+      "successCount": 1
+    },
+    "zx-spectrum:sc:1813": {
+      "title": "Flying Shark",
+      "scId": 1813,
+      "titleStem": "FlyingShark",
+      "preferredFormat": "tzx",
+      "preferredSource": "spectrum-computing",
+      "localFileHint": "FlyingShark.tzx.zip",
+      "strategies": [
+        "PreferTzx",
+        "FastLoadWarp",
+        "BioToxinHle",
+        "TurboIrqPolicy"
+      ],
+      "notes": "Preferir TZX (FlyingShark.tzx.zip) sobre TAP BioToxin; FastLoad×64 en turbo EAR; HLE si se fuerza TAP; no DI tras turbo.",
+      "lastSuccessUtc": "2026-11-24T00:00:00+00:00",
+      "successCount": 1
+    },
+    "zx-spectrum:sc:255": {
+      "title": "Arkanoid",
+      "scId": 255,
+      "titleStem": "Arkanoid",
+      "preferredFormat": "tap",
+      "preferredSource": "juegos",
+      "localFileHint": "Arkanoid.tap.zip",
+      "strategies": [
+        "ForceTap",
+        "FloatingBus",
+        "FloatingBusVsyncLatch",
+        "InstantFlashIffOn",
+        "HealthRetrySibling"
+      ],
+      "notes": "FB Fuse 14338 + IO contend OUT FE. VsyncLatch=FB lock tras wait+doble CALL 848F (1×/frame, beeper OK).",
+      "lastSuccessUtc": "2026-11-24T00:00:00+00:00",
+      "successCount": 1
+    },
+    "zx-spectrum:title:GreenBeret": {
+      "title": "Green Beret",
+      "titleStem": "GreenBeret",
+      "preferredFormat": "auto",
+      "preferredSource": "spectrum-computing",
+      "localFileHint": "GreenBeret.tap.zip",
+      "strategies": [ "UlaIrqContentionGeneral" ],
+      "notes": "Fix de timing IRQ/contention es general en ULA/SpectrumMachine (no solo este título). Sin override de formato.",
+      "lastSuccessUtc": "2026-11-24T00:00:00+00:00",
+      "successCount": 1
+    },
+    "zx-spectrum:title:Galen": {
+      "title": "Galen",
+      "titleStem": "Galen",
+      "preferredFormat": "auto",
+      "strategies": [ "MediaOnly" ],
+      "notes": "SCR decode / mapa de direcciones es fix global ScrDecoder — no estrategia de carga por juego.",
+      "lastSuccessUtc": "2026-11-24T00:00:00+00:00",
+      "successCount": 0
+    }
+  }
+}

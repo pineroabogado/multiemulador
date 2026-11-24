@@ -1,0 +1,27 @@
+# Build
+**/bin/
+**/obj/
+publish/
+.vs/
+*.user
+*.suo
+*.DotSettings.user
+
+# Emuladores de referencia (binarios locales; no versionar)
+EMULADORES/
+
+# Cintas/juegos comerciales locales (copyright)
+JUEGOS/
+
+# Temporales / diagnósticos
+tmp_reflect/
+tmp_reflect.cs
+*.wav
+arkanoid-*.wav
+.cursor/
+agent-transcripts/
+
+# OS
+Thumbs.db
+Desktop.ini
+.DS_Store

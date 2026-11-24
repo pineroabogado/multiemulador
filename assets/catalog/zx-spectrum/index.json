@@ -1,0 +1,58 @@
+{
+    "version":  2,
+    "entries":  [
+                    {
+                        "id":  "arkanoid",
+                        "title":  "Arkanoid",
+                        "machine":  "48k",
+                        "format":  ".tap.zip",
+                        "scFile":  "Arkanoid",
+                        "url":  "https://spectrumcomputing.co.uk/pub/sinclair/games/a/Arkanoid.tap.zip",
+                        "license":  "spectrum-computing",
+                        "notes":  "Spectrum Computing .tap.zip"
+                    },
+                    {
+                        "id":  "green-beret",
+                        "title":  "Green Beret",
+                        "machine":  "48k",
+                        "format":  ".tap.zip",
+                        "scFile":  "GreenBeret",
+                        "url":  "https://spectrumcomputing.co.uk/pub/sinclair/games/g/GreenBeret.tap.zip",
+                        "license":  "spectrum-computing",
+                        "notes":  "Spectrum Computing .tap.zip"
+                    },
+                    {
+                        "id":  "manic-miner",
+                        "title":  "Manic Miner",
+                        "machine":  "48k",
+                        "format":  ".tap.zip",
+                        "scFile":  "ManicMiner",
+                        "license":  "spectrum-computing"
+                    },
+                    {
+                        "id":  "jet-set-willy",
+                        "title":  "Jet Set Willy",
+                        "machine":  "48k",
+                        "format":  ".tap.zip",
+                        "scFile":  "JetSetWilly",
+                        "license":  "spectrum-computing"
+                    },
+                    {
+                        "id":  "saboteur",
+                        "title":  "Saboteur",
+                        "machine":  "48k",
+                        "format":  ".tap.zip",
+                        "scFile":  "Saboteur",
+                        "license":  "spectrum-computing"
+                    },
+                    {
+                        "id":  "knight-lore",
+                        "title":  "Knight Lore",
+                        "machine":  "48k",
+                        "format":  ".tap.zip",
+                        "scFile":  "KnightLore",
+                        "license":  "spectrum-computing"
+                    }
+                ],
+    "platform":  "zx-spectrum"
+}

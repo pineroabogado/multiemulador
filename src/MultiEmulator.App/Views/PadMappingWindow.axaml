@@ -1,0 +1,95 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:MultiEmulator.App.ViewModels"
+        xmlns:input="using:MultiEmulator.App.Input"
+        x:Class="MultiEmulator.App.Views.PadMappingWindow"
+        x:DataType="vm:PadMappingViewModel"
+        Title="Mapear mando Xbox → teclado Spectrum"
+        Width="740" Height="660"
+        MinWidth="560" MinHeight="420"
+        Background="#0000D7"
+        Foreground="White"
+        WindowStartupLocation="CenterOwner">
+
+  <Window.Styles>
+    <Style Selector="Button.chrome">
+      <Setter Property="Background" Value="#0000A0" />
+      <Setter Property="Foreground" Value="White" />
+      <Setter Property="BorderBrush" Value="#5C5CFF" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="Padding" Value="10,4" />
+    </Style>
+    <Style Selector="Button.chrome:pointerover">
+      <Setter Property="Background" Value="#0000FF" />
+    </Style>
+    <Style Selector="ComboBox">
+      <Setter Property="Background" Value="#000080" />
+      <Setter Property="Foreground" Value="White" />
+      <Setter Property="BorderBrush" Value="#5C5CFF" />
+    </Style>
+  </Window.Styles>
+
+  <DockPanel Margin="14">
+    <StackPanel DockPanel.Dock="Top" Spacing="6" Margin="0,0,0,10">
+      <TextBlock Text="Asigna 0..N teclas Spectrum a cada control. Se aplica en caliente (sin reiniciar)."
+                 TextWrapping="Wrap" FontSize="12" Opacity="0.95" />
+      <TextBlock Text="Combos: Caps+5, o elige Cursor/BREAK. Chip de tecla = quitar. Vaciar = desasignar."
+                 TextWrapping="Wrap" FontSize="11" Opacity="0.85" />
+      <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,6,0,0">
+        <Button Classes="chrome" Content="Restablecer defaults" Command="{Binding ResetDefaultsCommand}" />
+        <Button Classes="chrome" Content="Cerrar" Click="OnClose" />
+      </StackPanel>
+    </StackPanel>
+
+    <ScrollViewer>
+      <ItemsControl ItemsSource="{Binding Rows}">
+        <ItemsControl.ItemTemplate>
+          <DataTemplate x:DataType="vm:PadBindingRowViewModel">
+            <Border Background="#0000A0" BorderBrush="#5C5CFF" BorderThickness="1"
+                    CornerRadius="4" Padding="10,8" Margin="0,0,0,8">
+              <StackPanel Spacing="8">
+                <Grid ColumnDefinitions="150,*,Auto">
+                  <TextBlock Text="{Binding Label}" FontWeight="SemiBold" VerticalAlignment="Center" />
+                  <TextBlock Grid.Column="1" Text="{Binding KeysSummary}" Margin="8,0"
+                             VerticalAlignment="Center" TextWrapping="Wrap" FontSize="12" Opacity="0.95" />
+                  <Button Grid.Column="2" Classes="chrome" Content="Vaciar"
+                          Command="{Binding ClearKeysCommand}" />
+                </Grid>
+                <DockPanel>
+                  <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" Spacing="6">
+                    <ComboBox Width="240"
+                              ItemsSource="{Binding AvailableKeys}"
+                              SelectedItem="{Binding SelectedToAdd}">
+                      <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="input:SpectrumKeyEntry">
+                          <TextBlock Text="{Binding Label}" />
+                        </DataTemplate>
+                      </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <Button Classes="chrome" Content="Añadir" Command="{Binding AddSelectedCommand}" />
+                  </StackPanel>
+                  <ItemsControl ItemsSource="{Binding KeyChips}" Margin="10,0,0,0"
+                                HorizontalAlignment="Left" VerticalAlignment="Center">
+                    <ItemsControl.ItemsPanel>
+                      <ItemsPanelTemplate>
+                        <WrapPanel />
+                      </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                      <DataTemplate x:DataType="vm:PadKeyChipViewModel">
+                        <Button Classes="chrome" Margin="2" Padding="8,2"
+                                Content="{Binding Display}"
+                                Command="{Binding RemoveCommand}"
+                                ToolTip.Tip="Quitar esta tecla" />
+                      </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                  </ItemsControl>
+                </DockPanel>
+              </StackPanel>
+            </Border>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+    </ScrollViewer>
+  </DockPanel>
+</Window>

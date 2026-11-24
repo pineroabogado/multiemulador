@@ -1,0 +1,469 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:MultiEmulator.App.ViewModels"
+        xmlns:d="https://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="1280" d:DesignHeight="720"
+        x:Class="MultiEmulator.App.Views.MainWindow"
+        x:Name="RootWindow"
+        x:DataType="vm:MainViewModel"
+        Width="1280" Height="720"
+        MinWidth="900" MinHeight="520"
+        Title="MULTIEMULADOR — ZX Spectrum"
+        Background="#0000D7"
+        Foreground="White"
+        KeyDown="OnKeyDown" KeyUp="OnKeyUp"
+        DragDrop.AllowDrop="True">
+
+  <Window.Styles>
+    <Style Selector="Menu">
+      <Setter Property="Background" Value="#0000D7" />
+      <Setter Property="Foreground" Value="White" />
+    </Style>
+    <Style Selector="MenuItem">
+      <Setter Property="Foreground" Value="White" />
+      <Setter Property="Background" Value="#0000D7" />
+    </Style>
+    <Style Selector="MenuItem:pointerover /template/ ContentPresenter#PART_HeaderPresenter">
+      <Setter Property="Background" Value="#0000FF" />
+    </Style>
+    <Style Selector="MenuItem:selected /template/ ContentPresenter#PART_HeaderPresenter">
+      <Setter Property="Background" Value="#0000FF" />
+    </Style>
+    <Style Selector="Button.chrome">
+      <Setter Property="Background" Value="#0000A0" />
+      <Setter Property="Foreground" Value="White" />
+      <Setter Property="BorderBrush" Value="#5C5CFF" />
+      <Setter Property="BorderThickness" Value="1" />
+    </Style>
+    <Style Selector="Button.chrome:pointerover">
+      <Setter Property="Background" Value="#0000FF" />
+    </Style>
+    <Style Selector="TextBlock.status">
+      <Setter Property="Foreground" Value="White" />
+    </Style>
+    <Style Selector="Border.media-slot">
+      <Setter Property="Background" Value="#000040" />
+      <Setter Property="BorderBrush" Value="#5C5CFF" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="Padding" Value="4" />
+      <Setter Property="MinHeight" Value="96" />
+      <Setter Property="Cursor" Value="Hand" />
+    </Style>
+    <Style Selector="Border.badge-ok">
+      <Setter Property="Background" Value="#004000" />
+      <Setter Property="BorderBrush" Value="#5CFF5C" />
+    </Style>
+    <Style Selector="Border.badge-denied">
+      <Setter Property="Background" Value="#400000" />
+      <Setter Property="BorderBrush" Value="#FF5C5C" />
+    </Style>
+    <Style Selector="Border.badge-unknown">
+      <Setter Property="Background" Value="#404000" />
+      <Setter Property="BorderBrush" Value="#FFFF5C" />
+    </Style>
+    <Style Selector="Border.badge-info">
+      <Setter Property="Background" Value="#000080" />
+      <Setter Property="BorderBrush" Value="#5C5CFF" />
+    </Style>
+    <Style Selector="ProgressBar.chrome">
+      <Setter Property="Foreground" Value="#5C5CFF" />
+      <Setter Property="Background" Value="#000040" />
+      <Setter Property="BorderBrush" Value="#5C5CFF" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="MinHeight" Value="8" />
+      <Setter Property="Height" Value="10" />
+    </Style>
+  </Window.Styles>
+
+  <!-- No instanciar MainViewModel aquí: el ctor arranca EmulatorHost/InitAsync. -->
+
+  <DockPanel>
+    <Menu DockPanel.Dock="Top" Background="#0000D7" Foreground="White">
+      <MenuItem Header="_Archivo" Foreground="White">
+        <MenuItem Header="_Abrir…" Click="OnOpenFile" Foreground="White" />
+        <MenuItem Header="_Recientes" SubmenuOpened="OnRecientesOpened" Foreground="White">
+          <MenuItem Header="(Vacío)" IsEnabled="False" Foreground="White" />
+        </MenuItem>
+        <Separator />
+        <MenuItem Header="Guardar _estado" Command="{Binding SaveStateCommand}" Foreground="White" />
+        <MenuItem Header="Cargar e_stado…" Click="OnLoadState" Foreground="White" />
+        <Separator />
+        <MenuItem Header="_Salir" Click="OnExit" Foreground="White" />
+      </MenuItem>
+      <MenuItem Header="_Máquina" Foreground="White">
+        <MenuItem Header="Spectrum _48K" Command="{Binding Machine48Command}" Foreground="White" />
+        <MenuItem Header="Spectrum _128K" Command="{Binding Machine128Command}" Foreground="White" />
+        <MenuItem Header="_Reset" Command="{Binding ResetCommand}" Foreground="White" />
+        <MenuItem Header="_Pausa" Command="{Binding PauseCommand}" Foreground="White" />
+      </MenuItem>
+      <MenuItem Header="_Joystick" Foreground="White">
+        <MenuItem Header="_Kempston" Command="{Binding SetKempstonCommand}" Foreground="White" />
+        <MenuItem Header="_Sinclair 1" Command="{Binding SetSinclair1Command}" Foreground="White" />
+        <MenuItem Header="Mando = _teclado" Command="{Binding TogglePadKeyboardCommand}"
+                  Foreground="White" />
+        <MenuItem Header="_Mapear mando…" Command="{Binding OpenPadMappingCommand}"
+                  Foreground="White" />
+      </MenuItem>
+      <MenuItem Header="_Cinta" Foreground="White">
+        <MenuItem Header="▶ _Play (F6)" Command="{Binding TapePlayCommand}" Foreground="White" />
+        <MenuItem Header="▶▶ _Avance rápido FF (F7)" Command="{Binding TapeFastForwardCommand}" Foreground="White" />
+        <MenuItem Header="◀◀ _Rebobinar REW (F9)" Command="{Binding TapeRewindCommand}" Foreground="White" />
+        <Separator />
+        <MenuItem Header="Bloque _anterior" Command="{Binding TapeRewindOneBlockCommand}" Foreground="White" />
+        <MenuItem Header="Al _inicio de cinta" Command="{Binding TapeRewindToStartCommand}" Foreground="White" />
+      </MenuItem>
+      <MenuItem Header="_Vista" Foreground="White">
+        <MenuItem Header="_Panel herramientas" Command="{Binding ToggleToolsCommand}" Foreground="White" />
+        <MenuItem Header="_Audio on/off" Command="{Binding ToggleMuteCommand}" Foreground="White" />
+      </MenuItem>
+    </Menu>
+
+    <Border DockPanel.Dock="Bottom" Background="#0000A0" Padding="12,8">
+      <Grid ColumnDefinitions="*,Auto,Auto" RowDefinitions="Auto,Auto">
+        <TextBlock Grid.Column="0" Grid.Row="0" Classes="status" Text="{Binding Status}"
+                   VerticalAlignment="Center" FontSize="12" TextTrimming="CharacterEllipsis" />
+        <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal" Spacing="8" Margin="0,4,0,0"
+                    IsVisible="{Binding IsProgressVisible}">
+          <ProgressBar Classes="chrome" Width="220" Minimum="0" Maximum="100"
+                       Value="{Binding ProgressValue}"
+                       IsIndeterminate="{Binding IsProgressIndeterminate}"
+                       VerticalAlignment="Center" />
+          <TextBlock Text="{Binding ProgressText}" FontSize="11" Foreground="White" Opacity="0.9"
+                     VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+        </StackPanel>
+        <Button Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Classes="chrome" Margin="8,0,0,0" Padding="14,5"
+                VerticalAlignment="Center"
+                Command="{Binding ToggleMuteCommand}"
+                Content="{Binding MuteLabel}" />
+        <Button Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" Classes="chrome" Margin="8,0,0,0" Padding="14,5"
+                VerticalAlignment="Center"
+                Command="{Binding ToggleToolsCommand}" Content="Herramientas" />
+      </Grid>
+    </Border>
+
+    <Grid ColumnDefinitions="*,Auto" Background="#0000D7">
+      <Border x:Name="ScreenFrame"
+              Grid.Column="0"
+              Background="{Binding BorderBrush}"
+              Focusable="True"
+              Padding="32">
+        <Image x:Name="ScreenImage"
+               Source="{Binding Screen}"
+               Stretch="Uniform"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+               IsHitTestVisible="False"
+               RenderOptions.BitmapInterpolationMode="None" />
+      </Border>
+
+      <!-- Tools ~640px: Lista | Ficha (sin solapes) -->
+      <Border Grid.Column="1"
+              Width="640"
+              Background="#0000A0"
+              BorderBrush="#5C5CFF"
+              BorderThickness="1,0,0,0"
+              IsVisible="{Binding ToolsOpen}">
+        <Grid ColumnDefinitions="270,*">
+
+          <!-- Columna izquierda: cabecera + lista (*) + cinta/POKE (scroll) -->
+          <Grid Grid.Column="0" Margin="10,10,6,10" RowDefinitions="Auto,*,Auto">
+            <StackPanel Grid.Row="0" Spacing="6">
+              <Button Classes="chrome" HorizontalAlignment="Right"
+                      Content="Cerrar" Command="{Binding ToggleToolsCommand}" />
+              <TextBlock Text="Catálogo" FontWeight="Bold" Foreground="White" />
+              <TextBlock Text="Emulador" FontSize="11" Foreground="White" Opacity="0.85" />
+              <ItemsControl ItemsSource="{Binding CatalogPlatforms}">
+                <ItemsControl.ItemsPanel>
+                  <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal" />
+                  </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                  <!-- Sin cast ((vm:MainViewModel)…): en DataTemplate diferido Avalonia crasheaba
+                       con «Unable to resolve type vm:MainViewModel» al materializar la lista. -->
+                  <DataTemplate x:CompileBindings="False">
+                    <Button Classes="chrome"
+                            Margin="0,0,6,4"
+                            Content="{Binding ButtonLabel}"
+                            Opacity="{Binding ButtonOpacity}"
+                            Command="{Binding DataContext.SelectCatalogPlatformCommand, ElementName=RootWindow}"
+                            CommandParameter="{Binding}"
+                            ToolTip.Tip="{Binding DisplayName}" />
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+              <TextBlock Text="{Binding CatalogPlatformHint}" FontSize="11"
+                         Foreground="White" Opacity="0.9" TextWrapping="Wrap" />
+              <TextBox Watermark="Buscar…" Text="{Binding CatalogQuery}"
+                       IsEnabled="{Binding CatalogActionsEnabled}"
+                       Foreground="White" Background="#000080" CaretBrush="White" />
+              <Grid ColumnDefinitions="*,*">
+                <Button Grid.Column="0" Classes="chrome" Margin="0,0,4,0"
+                        Content="Buscar" Command="{Binding RefreshCatalogCommand}"
+                        IsEnabled="{Binding CatalogActionsEnabled}" />
+                <Button Grid.Column="1" Classes="chrome" Margin="4,0,0,0"
+                        Content="Rehacer listado"
+                        Command="{Binding RebuildCatalogCommand}"
+                        IsEnabled="{Binding CatalogActionsEnabled}"
+                        ToolTip.Tip="Descarga de nuevo el catálogo A–Z (solo plataformas activas)" />
+              </Grid>
+              <CheckBox Content="Solo favoritos"
+                        IsChecked="{Binding FavoritesOnly}"
+                        IsEnabled="{Binding CatalogActionsEnabled}"
+                        Foreground="White" />
+              <TextBlock Text="Fuente ROM" FontSize="11" Foreground="White" Opacity="0.9"
+                         Margin="0,4,0,0" />
+              <ComboBox ItemsSource="{Binding RomDownloadSources}"
+                        SelectedItem="{Binding SelectedRomDownloadSource}"
+                        IsEnabled="{Binding CatalogActionsEnabled}"
+                        HorizontalAlignment="Stretch"
+                        Foreground="White" Background="#000080"
+                        ToolTip.Tip="Fuente preferida (se prueba primero). Luego siempre cascada: Spectrum Computing → Software Library → TOSEC">
+                <ComboBox.ItemTemplate>
+                  <DataTemplate x:DataType="vm:RomDownloadSourceOption">
+                    <TextBlock Text="{Binding DisplayName}" Foreground="White" />
+                  </DataTemplate>
+                </ComboBox.ItemTemplate>
+              </ComboBox>
+              <TextBlock Text="Formato" FontSize="11" Foreground="White" Opacity="0.9"
+                         Margin="0,4,0,0" />
+              <ComboBox ItemsSource="{Binding RomMediaFormats}"
+                        SelectedItem="{Binding SelectedRomMediaFormat}"
+                        IsEnabled="{Binding CatalogActionsEnabled}"
+                        HorizontalAlignment="Stretch"
+                        Foreground="White" Background="#000080"
+                        ToolTip.Tip="Preferencia de archivo: Auto (TZX si conviene), TAP, TZX, Z80, SNA o DSK">
+                <ComboBox.ItemTemplate>
+                  <DataTemplate x:DataType="vm:RomMediaFormatOption">
+                    <TextBlock Text="{Binding DisplayName}" Foreground="White" />
+                  </DataTemplate>
+                </ComboBox.ItemTemplate>
+              </ComboBox>
+              <TextBlock Text="{Binding CatalogRebuildStatus}" FontSize="11"
+                         Foreground="White" Opacity="0.9" TextWrapping="Wrap" />
+            </StackPanel>
+
+            <ListBox Grid.Row="1"
+                     Margin="0,8,0,8"
+                     MinHeight="80"
+                     Background="#000080" Foreground="White"
+                     ItemsSource="{Binding CatalogResults}"
+                     SelectedItem="{Binding SelectedEntry}">
+              <ListBox.ItemTemplate>
+                <DataTemplate>
+                  <StackPanel Margin="0,2">
+                    <TextBlock Text="{Binding Title}" FontWeight="SemiBold" Foreground="White"
+                               TextTrimming="CharacterEllipsis" />
+                    <TextBlock Opacity="0.85" FontSize="11" Foreground="White"
+                               Text="{Binding Machine, StringFormat=Máquina: {0}}" />
+                  </StackPanel>
+                </DataTemplate>
+              </ListBox.ItemTemplate>
+            </ListBox>
+
+            <ScrollViewer Grid.Row="2"
+                          MaxHeight="260"
+                          VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Disabled">
+              <StackPanel Spacing="8">
+                <Separator Background="#5C5CFF" />
+                <TextBlock Text="Cinta (VHS)" FontWeight="Bold" Foreground="White" />
+                <TextBlock Text="{Binding TapeLabel}" FontSize="11" Foreground="White" Opacity="0.9"
+                           TextWrapping="Wrap" />
+                <UniformGrid Columns="3">
+                  <Button Classes="chrome" Margin="0,0,4,4" Padding="8,6"
+                          Command="{Binding TapeRewindCommand}" Content="◀◀" ToolTip.Tip="REW ×2/×4/×8 (F9)" />
+                  <Button Classes="chrome" Margin="0,0,4,4" Padding="8,6"
+                          Command="{Binding TapePlayCommand}" Content="▶" ToolTip.Tip="Play ×1 (F6)" />
+                  <Button Classes="chrome" Margin="0,0,0,4" Padding="8,6"
+                          Command="{Binding TapeFastForwardCommand}" Content="▶▶" ToolTip.Tip="FF ×2/×4/×8 (F7)" />
+                </UniformGrid>
+                <!-- Apilados para no truncar en columna estrecha -->
+                <Button Classes="chrome" HorizontalAlignment="Stretch" Padding="8,6"
+                        Command="{Binding TapeRewindOneBlockCommand}" Content="« Bloque anterior" />
+                <Button Classes="chrome" HorizontalAlignment="Stretch" Padding="8,6"
+                        Command="{Binding TapeRewindToStartCommand}" Content="|◀ Inicio de cinta" />
+                <TextBlock Text="F6 Play · F7 FF · F9 REW"
+                           FontSize="10" Foreground="White" Opacity="0.75" TextWrapping="Wrap" />
+
+                <Separator Background="#5C5CFF" />
+                <TextBlock Text="POKE" FontWeight="Bold" Foreground="White" />
+                <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto">
+                  <TextBox Grid.Row="0" Grid.Column="0" Margin="0,0,4,4" Watermark="Dirección"
+                           Text="{Binding PokeAddress}" Foreground="White" Background="#000080" CaretBrush="White" />
+                  <TextBox Grid.Row="0" Grid.Column="1" Margin="4,0,0,4" Watermark="Valor"
+                           Text="{Binding PokeValue}" Foreground="White" Background="#000080" CaretBrush="White" />
+                  <Button Grid.Row="1" Grid.ColumnSpan="2" Classes="chrome" Content="Aplicar POKE"
+                          Command="{Binding ApplyPokeCommand}" />
+                </Grid>
+
+                <Separator Background="#5C5CFF" />
+                <TextBlock Text="Sistema" FontWeight="Bold" Foreground="White" />
+                <TextBlock Text="{Binding RomNotice}" TextWrapping="Wrap" FontSize="11"
+                           Foreground="White" Opacity="0.9" />
+                <TextBlock Text="Archivo → Abrir o arrastrar .tap/.tzx/.trd/.z80/.sna/.zip"
+                           TextWrapping="Wrap" FontSize="11" Foreground="White" Opacity="0.9" />
+              </StackPanel>
+            </ScrollViewer>
+          </Grid>
+
+          <!-- Columna ficha -->
+          <Border Grid.Column="1"
+                  Background="#000080"
+                  BorderBrush="#5C5CFF"
+                  BorderThickness="1,0,0,0"
+                  Padding="12,10">
+            <DockPanel>
+              <StackPanel DockPanel.Dock="Top" Spacing="4" Margin="0,0,0,8">
+                <DockPanel>
+                  <Button DockPanel.Dock="Right" Classes="chrome" Padding="10,4"
+                          Content="{Binding CatalogDetail.FavoriteLabel}"
+                          Command="{Binding ToggleFavoriteCommand}"
+                          IsVisible="{Binding CatalogDetail.HasSelection}"
+                          ToolTip.Tip="Marcar / quitar favorito" />
+                  <TextBlock Text="Ficha" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" />
+                </DockPanel>
+                <TextBlock Text="{Binding CatalogDetail.Title}" FontSize="16" FontWeight="SemiBold"
+                           Foreground="White" TextWrapping="Wrap" />
+                <TextBlock Text="{Binding CatalogDetail.Subtitle}" FontSize="11"
+                           Foreground="White" Opacity="0.85" />
+                <Border Padding="6,3" Margin="0,2,0,0"
+                        IsVisible="{Binding CatalogDetail.ShowAvailabilityBadge}"
+                        BorderThickness="1"
+                        Background="#0000A0" BorderBrush="#5C5CFF">
+                  <TextBlock Text="{Binding CatalogDetail.AvailabilityBadge}" FontSize="11" Foreground="White" />
+                </Border>
+                <TextBlock Text="{Binding CatalogDetail.MediaSourceNote}" FontSize="10"
+                           Foreground="White" Opacity="0.7" TextWrapping="Wrap" />
+              </StackPanel>
+
+              <StackPanel DockPanel.Dock="Bottom" Spacing="6" Margin="0,10,0,0"
+                          IsVisible="{Binding CatalogDetail.HasSelection}">
+                <StackPanel Spacing="4" IsVisible="{Binding IsProgressVisible}">
+                  <TextBlock Text="{Binding ProgressText}" FontSize="11"
+                             Foreground="White" Opacity="0.9" TextWrapping="Wrap" />
+                  <ProgressBar Classes="chrome" Minimum="0" Maximum="100"
+                               Value="{Binding ProgressValue}"
+                               IsIndeterminate="{Binding IsProgressIndeterminate}" />
+                </StackPanel>
+                <Button Classes="chrome" HorizontalAlignment="Stretch"
+                        Content="Descargar y ejecutar"
+                        Command="{Binding LaunchSelectedCommand}" />
+                <Button Classes="chrome" HorizontalAlignment="Stretch"
+                        Content="Abrir en Spectrum Computing"
+                        Command="{Binding OpenSpectrumComputingCommand}"
+                        ToolTip.Tip="Abre la ficha del juego seleccionado en el navegador" />
+              </StackPanel>
+
+              <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel Spacing="10">
+                  <StackPanel Spacing="4">
+                    <TextBlock Text="Carga" FontSize="12" FontWeight="SemiBold" Foreground="White" />
+                    <Button Background="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch"
+                            Command="{Binding CatalogDetail.OpenLightboxCommand}" CommandParameter="load"
+                            ToolTip.Tip="Clic para ampliar">
+                      <Border Classes="media-slot">
+                        <Panel MinHeight="96">
+                          <Image Source="{Binding CatalogDetail.LoadImage}" Stretch="Uniform"
+                                 HorizontalAlignment="Center" VerticalAlignment="Center"
+                                 RenderOptions.BitmapInterpolationMode="None"
+                                 IsVisible="{Binding CatalogDetail.LoadImage, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                          <TextBlock Text="{Binding CatalogDetail.LoadStatus}" Foreground="White" Opacity="0.75"
+                                     HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="11"
+                                     IsVisible="{Binding CatalogDetail.LoadImage, Converter={x:Static ObjectConverters.IsNull}}" />
+                        </Panel>
+                      </Border>
+                    </Button>
+                  </StackPanel>
+
+                  <StackPanel Spacing="4">
+                    <TextBlock Text="In-game" FontSize="12" FontWeight="SemiBold" Foreground="White" />
+                    <Button Background="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch"
+                            Command="{Binding CatalogDetail.OpenLightboxCommand}" CommandParameter="ingame"
+                            ToolTip.Tip="Clic para ampliar">
+                      <Border Classes="media-slot">
+                        <Panel MinHeight="96">
+                          <Image Source="{Binding CatalogDetail.InGameImage}" Stretch="Uniform"
+                                 HorizontalAlignment="Center" VerticalAlignment="Center"
+                                 RenderOptions.BitmapInterpolationMode="None"
+                                 IsVisible="{Binding CatalogDetail.InGameImage, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                          <TextBlock Text="{Binding CatalogDetail.InGameStatus}" Foreground="White" Opacity="0.75"
+                                     HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="11"
+                                     IsVisible="{Binding CatalogDetail.InGameImage, Converter={x:Static ObjectConverters.IsNull}}" />
+                        </Panel>
+                      </Border>
+                    </Button>
+                  </StackPanel>
+
+                  <StackPanel Spacing="4">
+                    <TextBlock Text="Carátula" FontSize="12" FontWeight="SemiBold" Foreground="White" />
+                    <Button Background="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch"
+                            Command="{Binding CatalogDetail.OpenLightboxCommand}" CommandParameter="cover"
+                            ToolTip.Tip="Clic para ampliar">
+                      <Border Classes="media-slot">
+                        <Panel MinHeight="96">
+                          <Image Source="{Binding CatalogDetail.CoverImage}" Stretch="Uniform"
+                                 HorizontalAlignment="Center" VerticalAlignment="Center"
+                                 RenderOptions.BitmapInterpolationMode="HighQuality"
+                                 IsVisible="{Binding CatalogDetail.CoverImage, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                          <TextBlock Text="{Binding CatalogDetail.CoverStatus}" Foreground="White" Opacity="0.75"
+                                     HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="11"
+                                     IsVisible="{Binding CatalogDetail.CoverImage, Converter={x:Static ObjectConverters.IsNull}}" />
+                        </Panel>
+                      </Border>
+                    </Button>
+                  </StackPanel>
+
+                  <!-- Additional File Downloads -->
+                  <StackPanel Spacing="6" IsVisible="{Binding CatalogDetail.HasAdditionalFiles}">
+                    <Separator Background="#5C5CFF" />
+                    <TextBlock Text="Archivos adicionales (ficha SC)" FontWeight="SemiBold" Foreground="White" />
+                    <!-- CompileBindings off: nested DataTemplate + outer x:DataType crashed at runtime
+                         (Unable to resolve type vm:MainViewModel) when materializing ExtraGallery. -->
+                    <ItemsControl ItemsSource="{Binding CatalogDetail.ExtraGallery}">
+                      <ItemsControl.ItemTemplate>
+                        <DataTemplate x:CompileBindings="False">
+                          <Button Background="Transparent" BorderThickness="0" Padding="0" Margin="0,0,0,6"
+                                  HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                                  Command="{Binding OpenCommand}"
+                                  ToolTip.Tip="Clic para ampliar">
+                            <Border Background="#0000A0" BorderBrush="#5C5CFF" BorderThickness="1" Padding="6">
+                              <Grid ColumnDefinitions="72,*">
+                                <Border Grid.Column="0" Width="68" Height="68" Background="#000040"
+                                        BorderBrush="#5C5CFF" BorderThickness="1" Margin="0,0,8,0">
+                                  <Panel>
+                                    <Image Source="{Binding Image}" Stretch="Uniform"
+                                           IsVisible="{Binding Image, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                           RenderOptions.BitmapInterpolationMode="None" />
+                                    <TextBlock Text="{Binding Status}" FontSize="9" Opacity="0.7"
+                                               HorizontalAlignment="Center" VerticalAlignment="Center"
+                                               Foreground="White"
+                                               IsVisible="{Binding Image, Converter={x:Static ObjectConverters.IsNull}}" />
+                                  </Panel>
+                                </Border>
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="2">
+                                  <TextBlock Text="{Binding Label}" FontWeight="SemiBold" Foreground="White"
+                                             FontSize="12" TextWrapping="Wrap" />
+                                  <TextBlock Text="{Binding Description}" FontSize="11" Foreground="White"
+                                             Opacity="0.85" TextWrapping="Wrap"
+                                             IsVisible="{Binding Description, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+                                  <TextBlock Text="{Binding FileName}" FontSize="10" Foreground="White"
+                                             Opacity="0.7" TextWrapping="Wrap" />
+                                </StackPanel>
+                              </Grid>
+                            </Border>
+                          </Button>
+                        </DataTemplate>
+                      </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                  </StackPanel>
+                </StackPanel>
+              </ScrollViewer>
+            </DockPanel>
+          </Border>
+        </Grid>
+      </Border>
+    </Grid>
+  </DockPanel>
+</Window>

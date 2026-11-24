@@ -1,0 +1,60 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="MultiEmulator.App.Views.MediaLightboxWindow"
+        Title="Vista ampliada"
+        Width="960" Height="720"
+        MinWidth="520" MinHeight="400"
+        Background="#0000D7"
+        Foreground="White"
+        WindowStartupLocation="CenterOwner"
+        KeyDown="OnKeyDown">
+
+  <Window.Styles>
+    <Style Selector="Button.chrome">
+      <Setter Property="Background" Value="#0000A0" />
+      <Setter Property="Foreground" Value="White" />
+      <Setter Property="BorderBrush" Value="#5C5CFF" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="Padding" Value="12,6" />
+      <Setter Property="MinWidth" Value="36" />
+    </Style>
+    <Style Selector="Button.chrome:pointerover">
+      <Setter Property="Background" Value="#0000FF" />
+    </Style>
+  </Window.Styles>
+
+  <DockPanel Margin="12">
+    <DockPanel DockPanel.Dock="Top" Margin="0,0,0,8">
+      <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" Spacing="6">
+        <Button Classes="chrome" Content="−" ToolTip.Tip="Alejar (rueda / −)" Click="OnZoomOut" />
+        <Button Classes="chrome" Content="+" ToolTip.Tip="Acercar (rueda / +)" Click="OnZoomIn" />
+        <Button Classes="chrome" Content="Ajustar" ToolTip.Tip="Encajar en ventana (0)" Click="OnZoomFit" />
+        <Button Classes="chrome" Content="100%" ToolTip.Tip="Tamaño real (1)" Click="OnZoom100" />
+        <TextBlock x:Name="ZoomLabel" Text="Ajuste —" VerticalAlignment="Center" Margin="8,0,8,0"
+                   FontSize="12" Opacity="0.9" MinWidth="88" TextAlignment="Center" />
+        <Button Classes="chrome" Content="Cerrar" Click="OnClose" IsCancel="True" />
+      </StackPanel>
+      <TextBlock x:Name="TitleText" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center"
+                 TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Margin="0,0,12,0" />
+    </DockPanel>
+
+    <Border Background="#000080" BorderBrush="#5C5CFF" BorderThickness="1">
+      <ScrollViewer x:Name="Scroller"
+                    HorizontalScrollBarVisibility="Auto"
+                    VerticalScrollBarVisibility="Auto"
+                    PointerWheelChanged="OnPointerWheel">
+        <Panel x:Name="ImageHost" Background="Transparent"
+               PointerPressed="OnPointerPressed"
+               PointerMoved="OnPointerMoved"
+               PointerReleased="OnPointerReleased"
+               PointerCaptureLost="OnPointerCaptureLost">
+          <!-- Stretch=Fill: Width/Height del code-behind escalan el bitmap (None lo dejaba a 1:1). -->
+          <Image x:Name="PreviewImage"
+                 Stretch="Fill"
+                 HorizontalAlignment="Left" VerticalAlignment="Top"
+                 RenderOptions.BitmapInterpolationMode="None" />
+        </Panel>
+      </ScrollViewer>
+    </Border>
+  </DockPanel>
+</Window>

@@ -1,0 +1,306 @@
+{
+  "version": 1,
+  "games": {
+    "zx-spectrum:sc:25358": {
+      "id": "sc-25358",
+      "title": "07 Zglos Sie",
+      "scId": 25358,
+      "scSlug": "07_Zglos_Sie",
+      "scFile": "07ZglosSie",
+      "entryUrl": "https://spectrumcomputing.co.uk/entry/25358/ZX-Spectrum/07_Zglos_Sie",
+      "workingDownloadUrls": [],
+      "loadScreenUrl": "https://spectrumcomputing.co.uk/pub/sinclair/screens/load/123/scr/07ZglosSie.scr",
+      "inGameUrl": "https://spectrumcomputing.co.uk/pub/sinclair/screens/in-game/123/07ZglosSie.gif",
+      "additionalMediaUrls": [
+        "https://spectrumcomputing.co.uk/pub/sinclair/screens/load/123/scr/07ZglosSie.scr",
+        "https://spectrumcomputing.co.uk/\u0027/SCRtoImage.php?SCR=pub/sinclair/screens/load/123/scr/07ZglosSie.scr\u0026border=0\u0027",
+        "https://spectrumcomputing.co.uk/pub/sinclair/screens/in-game/123/07ZglosSie.gif",
+        "https://spectrumcomputing.co.uk/\u0027/pub/sinclair/screens/in-game/123/07ZglosSie.gif\u0027"
+      ],
+      "updatedUtc": "2026-11-23T17:53:52.5632002+00:00"
+    },
+    "zx-spectrum:sc:29741": {
+      "id": "sc-29741",
+      "title": "1 Line Labyrin3D",
+      "scId": 29741,
+      "scSlug": "1_Line_Labyrin3D",
+      "scFile": "1LineLabyrin3D",
+      "entryUrl": "https://spectrumcomputing.co.uk/entry/29741/ZX-Spectrum/1_Line_Labyrin3D",
+      "workingDownloadUrls": [],
+      "inGameUrl": "https://spectrumcomputing.co.uk/zxdb/sinclair/entries/0029741/1LineLabyrin3D-RUN-1.scr",
+      "additionalMediaUrls": [
+        "https://spectrumcomputing.co.uk/zxdb/sinclair/entries/0029741/1LineLabyrin3D-RUN-1.scr",
+        "https://spectrumcomputing.co.uk/\u0027/SCRtoImage.php?SCR=zxdb/sinclair/entries/0029741/1LineLabyrin3D-RUN-1.scr\u0026border=7\u0027",
+        "https://spectrumcomputing.co.uk/zxdb/sinclair/entries/0029741/1LineLabyrin3D-RUN-2.scr",
+        "https://spectrumcomputing.co.uk/\u0027/SCRtoImage.php?SCR=zxdb/sinclair/entries/0029741/1LineLabyrin3D-RUN-2.scr\u0026border=7\u0027"
+      ],
+      "updatedUtc": "2026-11-23T17:53:55.3335639+00:00"
+    },
+    "zx-spectrum:sc:13": {
+      "id": "sc-13",
+      "title": "15 OS",
+      "scId": 13,
+      "scSlug": "15_OS",
+      "scFile": "15OS",
+      "entryUrl": "https://spectrumcomputing.co.uk/entry/13/ZX-Spectrum/15_OS",
+      "workingDownloadUrls": [],
+      "inGameUrl": "https://spectrumcomputing.co.uk/pub/sinclair/screens/in-game/123/15OS.gif",
+      "additionalMediaUrls": [
+        "https://spectrumcomputing.co.uk/pub/sinclair/screens/in-game/123/15OS.gif",
+        "https://spectrumcomputing.co.uk/\u0027/pub/sinclair/screens/in-game/123/15OS.gif\u0027"
+      ],
+      "updatedUtc": "2026-11-23T17:54:00.8606175+00:00"
+    },
+    "zx-spectrum:sc:17": {
+      "id": "sc-17",
+      "title": "1984",
+      "scId": 17,
+      "scSlug": "1984",
+      "scFile": "1984",
+      "entryUrl": "https://spectrumcomputing.co.uk/entry/17/ZX-Spectrum/1984",
+      "workingDownloadUrls": [],
+      "loadScreenUrl": "https://spectrumcomputing.co.uk/pub/sinclair/screens/load/123/scr/1984.scr",
+      "inGameUrl": "https://spectrumcomputing.co.uk/pub/sinclair/screens/in-game/123/1984.gif",
+      "coverUrl": "https://spectrumcomputing.co.uk/zxdb/sinclair/entries/0000017/1984.jpg",
+      "additionalMediaUrls": [
+        "https://spectrumcomputing.co.uk/pub/sinclair/screens/load/123/scr/1984.scr",
+        "https://spectrumcomputing.co.uk/\u0027/SCRtoImage.php?SCR=pub/sinclair/screens/load/123/scr/1984.scr\u0026border=0\u0027",
+        "https://spectrumcomputing.co.uk/pub/sinclair/screens/in-game/123/1984.gif",
+        "https://spectrumcomputing.co.uk/\u0027/pub/sinclair/screens/in-game/123/1984.gif\u0027",
+        "https://spectrumcomputing.co.uk/zxdb/sinclair/entries/0000017/1984.jpg",
+        "https://spectrumcomputing.co.uk/\u0027/zxdb/sinclair/entries/0000017/1984.jpg\u0027",
+        "https://spectrumcomputing.co.uk/zxdb/sinclair/entries/0000017/1984_Media.jpg",
+        "https://spectrumcomputing.co.uk/\u0027/zxdb/sinclair/entries/0000017/1984_Media.jpg\u0027"
+      ],
+      "updatedUtc": "2026-11-23T17:54:06.737246+00:00"
+    },
+    "zx-spectrum:sc:13072": {
+      "id": "sc-13072",
+      "title": "Stek",
+      "scId": 13072,
+      "scSlug": "Stek",
+      "scFile": "Stek",
+      "entryUrl": "https://spectrumcomputing.co.uk/entry/13072/ZX-Spectrum/Stek",
+      "workingDownloadUrls": [],
+      "loadScreenUrl": "https://spectrumcomputing.co.uk/pub/sinclair/screens/load/s/scr/StekV1.1.scr",
+      "inGameUrl": "https://spectrumcomputing.co.uk/pub/sinclair/screens/in-game/s/Stek.gif",
+      "additionalMediaUrls": [
+        "https://spectrumcomputing.co.uk/pub/sinclair/screens/load/s/scr/StekV1.1.scr",
+        "https://spectrumcomputing.co.uk/\u0027/SCRtoImage.php?SCR=pub/sinclair/screens/load/s/scr/StekV1.1.scr\u0026border=0\u0027",
+        "https://spectrumcomputing.co.uk/pub/sinclair/screens/in-game/s/Stek.gif",
+        "https://spectrumcomputing.co.uk/\u0027/pub/sinclair/screens/in-game/s/Stek.gif\u0027"
+      ],
+      "updatedUtc": "2026-11-23T19:30:24.4228103+00:00"
+    },
+    "zx-spectrum:sc:30336": {
+      "id": "sc-30336",
+      "title": "Stela II",
+      "scId": 30336,
+      "scSlug": "Stela_II",
+      "scFile": "StelaII",
+      "entryUrl": "https://spectrumcomputing.co.uk/entry/30336/ZX-Spectrum/Stela_II",
+      "workingDownloadUrls": [],
+      "loadScreenUrl": "https://spectrumcomputing.co.uk/zxdb/sinclair/entries/0030336/0030336-load-1.scr",
+      "inGameUrl": "https://spectrumcomputing.co.uk/zxdb/sinclair/entries/0030336/0030336-run-1.scr",
+      "additionalMediaUrls": [
+        "https://spectrumcomputing.co.uk/zxdb/sinclair/entries/0030336/0030336-load-1.scr",
+        "https://spectrumcomputing.co.uk/\u0027/SCRtoImage.php?SCR=zxdb/sinclair/entries/0030336/0030336-load-1.scr\u0026border=0\u0027",
+        "https://spectrumcomputing.co.uk/zxdb/sinclair/entries/0030336/0030336-run-1.scr",
+        "https://spectrumcomputing.co.uk/\u0027/SCRtoImage.php?SCR=zxdb/sinclair/entries/0030336/0030336-run-1.scr\u0026border=0\u0027"
+      ],
+      "updatedUtc": "2026-11-23T19:30:26.3896564+00:00"
+    },
+    "zx-spectrum:sc:37745": {
+      "id": "sc-37745",
+      "title": "Stay Alive",
+      "scId": 37745,
+      "scSlug": "Stay_Alive",
+      "scFile": "StayAlive",
+      "entryUrl": "https://spectrumcomputing.co.uk/entry/37745/ZX-Spectrum/Stay_Alive",
+      "workingDownloadUrls": [],
+      "inGameUrl": "https://spectrumcomputing.co.uk/zxdb/sinclair/entries/0037745/0037745-run-1.scr",
+      "additionalMediaUrls": [
+        "https://spectrumcomputing.co.uk/zxdb/sinclair/entries/0037745/0037745-run-1.scr",
+        "https://spectrumcomputing.co.uk/\u0027/SCRtoImage.php?SCR=zxdb/sinclair/entries/0037745/0037745-run-1.scr\u0026border=0\u0027",
+        "https://spectrumcomputing.co.uk/zxdb/sinclair/entries/0037745/0037745-open-1.scr",
+        "https://spectrumcomputing.co.uk/\u0027/SCRtoImage.php?SCR=zxdb/sinclair/entries/0037745/0037745-open-1.scr\u0026border=0\u0027"
+      ],
+      "updatedUtc": "2026-11-23T19:30:32.7214856+00:00"
+    },
+    "zx-spectrum:sc:17830": {
+      "id": "sc-17830",
+      "title": "Startrek",
+      "scId": 17830,
+      "scSlug": "Startrek",
+      "scFile": "Startrek",
+      "entryUrl": "https://spectrumcomputing.co.uk/entry/17830/ZX-Spectrum/Startrek",
+      "workingDownloadUrls": [],
+      "inGameUrl": "https://spectrumcomputing.co.uk/pub/sinclair/screens/in-game/s/Startrek_4.gif",
+      "additionalMediaUrls": [
+        "https://spectrumcomputing.co.uk/pub/sinclair/screens/in-game/s/Startrek_4.gif",
+        "https://spectrumcomputing.co.uk/\u0027/pub/sinclair/screens/in-game/s/Startrek_4.gif\u0027"
+      ],
+      "updatedUtc": "2026-11-23T19:30:36.8359753+00:00"
+    },
+    "zx-spectrum:sc:4886": {
+      "id": "sc-4886",
+      "title": "Startrek",
+      "scId": 4886,
+      "scSlug": "Startrek",
+      "scFile": "Startrek",
+      "entryUrl": "https://spectrumcomputing.co.uk/entry/4886/ZX-Spectrum/Startrek",
+      "workingDownloadUrls": [],
+      "loadScreenUrl": "https://spectrumcomputing.co.uk/pub/sinclair/screens/load/s/scr/Startrek_3.scr",
+      "inGameUrl": "https://spectrumcomputing.co.uk/zxdb/sinclair/entries/0004886/Startrek_3.gif",
+      "additionalMediaUrls": [
+        "https://spectrumcomputing.co.uk/pub/sinclair/screens/load/s/scr/Startrek_3.scr",
+        "https://spectrumcomputing.co.uk/\u0027/SCRtoImage.php?SCR=pub/sinclair/screens/load/s/scr/Startrek_3.scr\u0026border=0\u0027",
+        "https://spectrumcomputing.co.uk/zxdb/sinclair/entries/0004886/Startrek_3.gif",
+        "https://spectrumcomputing.co.uk/\u0027/zxdb/sinclair/entries/0004886/Startrek_3.gif\u0027"
+      ],
+      "updatedUtc": "2026-11-23T19:30:41.5314527+00:00"
+    },
+    "zx-spectrum:sc:4823": {
+      "id": "sc-4823",
+      "title": "The Star Fly",
+      "scId": 4823,
+      "scSlug": "The_Star_Fly",
+      "scFile": "TheStarFly",
+      "entryUrl": "https://spectrumcomputing.co.uk/entry/4823/ZX-Spectrum/The_Star_Fly",
+      "workingDownloadUrls": [],
+      "loadScreenUrl": "https://spectrumcomputing.co.uk/pub/sinclair/screens/load/s/scr/StarFlyThe.scr",
+      "inGameUrl": "https://spectrumcomputing.co.uk/pub/sinclair/screens/in-game/s/StarFlyThe.gif",
+      "additionalMediaUrls": [
+        "https://spectrumcomputing.co.uk/pub/sinclair/screens/load/s/scr/StarFlyThe.scr",
+        "https://spectrumcomputing.co.uk/\u0027/SCRtoImage.php?SCR=pub/sinclair/screens/load/s/scr/StarFlyThe.scr\u0026border=0\u0027",
+        "https://spectrumcomputing.co.uk/pub/sinclair/screens/in-game/s/StarFlyThe.gif",
+        "https://spectrumcomputing.co.uk/\u0027/pub/sinclair/screens/in-game/s/StarFlyThe.gif\u0027"
+      ],
+      "updatedUtc": "2026-11-23T19:30:56.1570953+00:00"
+    },
+    "zx-spectrum:sc:1813": {
+      "id": "sc-1813",
+      "title": "Flying Shark",
+      "scId": 1813,
+      "scSlug": "Flying_Shark",
+      "scFile": "FlyingShark",
+      "entryUrl": "https://spectrumcomputing.co.uk/entry/1813/ZX-Spectrum/Flying_Shark",
+      "workingDownloadUrl": "https://spectrumcomputing.co.uk/pub/sinclair/games/f/FlyingShark.tzx.zip",
+      "workingDownloadUrls": [
+        "https://spectrumcomputing.co.uk/pub/sinclair/games/f/FlyingShark.tzx.zip",
+        "https://spectrumcomputing.co.uk/pub/sinclair/games/f/FlyingShark.tap.zip"
+      ],
+      "format": ".tzx.zip",
+      "downloadSource": "spectrum-computing",
+      "loadScreenUrl": "https://spectrumcomputing.co.uk/pub/sinclair/screens/load/f/scr/FlyingShark.scr",
+      "inGameUrl": "https://spectrumcomputing.co.uk/pub/sinclair/screens/in-game/f/FlyingShark.gif",
+      "coverUrl": "https://spectrumcomputing.co.uk/zxdb/sinclair/entries/0001813/FlyingShark.jpg",
+      "additionalMediaUrls": [
+        "https://spectrumcomputing.co.uk/pub/sinclair/screens/load/f/scr/FlyingShark.scr",
+        "https://spectrumcomputing.co.uk/\u0027/SCRtoImage.php?SCR=pub/sinclair/screens/load/f/scr/FlyingShark.scr\u0026border=0\u0027",
+        "https://spectrumcomputing.co.uk/pub/sinclair/screens/in-game/f/FlyingShark.gif",
+        "https://spectrumcomputing.co.uk/\u0027/pub/sinclair/screens/in-game/f/FlyingShark.gif\u0027",
+        "https://spectrumcomputing.co.uk/zxdb/sinclair/entries/0001813/FlyingShark.jpg",
+        "https://spectrumcomputing.co.uk/\u0027/zxdb/sinclair/entries/0001813/FlyingShark.jpg\u0027",
+        "https://spectrumcomputing.co.uk/zxdb/sinclair/entries/0001813/FlyingShark_Media.jpg",
+        "https://spectrumcomputing.co.uk/\u0027/zxdb/sinclair/entries/0001813/FlyingShark_Media.jpg\u0027",
+        "https://spectrumcomputing.co.uk/pub/sinclair/games-maps/f/FlyingShark.jpg",
+        "https://spectrumcomputing.co.uk/\u0027/img/file_types/map.png\u0027",
+        "https://spectrumcomputing.co.uk/pub/sinclair/games-maps/f/FlyingShark_2.jpg",
+        "https://spectrumcomputing.co.uk/pub/sinclair/games-maps/f/FlyingShark_3.jpg",
+        "https://spectrumcomputing.co.uk/pub/sinclair/games-maps/f/FlyingShark_4.png",
+        "https://spectrumcomputing.co.uk/pub/sinclair/games-maps/f/FlyingShark_5.jpg",
+        "https://spectrumcomputing.co.uk/pub/sinclair/magazines/SinclairUser/Issue071/SUPoster071.jpg",
+        "https://spectrumcomputing.co.uk/\u0027/pub/sinclair/magazines/SinclairUser/Issue071/SUPoster071.jpg\u0027",
+        "https://spectrumcomputing.co.uk/pub/sinclair/games-adverts/f/FlyingShark.jpg",
+        "https://spectrumcomputing.co.uk/\u0027/pub/sinclair/games-adverts/f/FlyingShark.jpg\u0027",
+        "https://spectrumcomputing.co.uk/pub/sinclair/games-inlays/Rereleases/f/FlyingShark(DroSoft).jpg",
+        "https://spectrumcomputing.co.uk/\u0027/pub/sinclair/games-inlays/Rereleases/f/FlyingShark(DroSoft"
+      ],
+      "lastPlayedUtc": "2026-11-23T20:07:44.6590255+00:00",
+      "updatedUtc": "2026-11-23T20:07:44.6590255+00:00"
+    },
+    "zx-spectrum:sc:9297": {
+      "id": "sc-9297",
+      "title": "1942",
+      "scId": 9297,
+      "scSlug": "1942",
+      "scFile": "1942",
+      "entryUrl": "https://spectrumcomputing.co.uk/entry/9297/ZX-Spectrum/1942",
+      "workingDownloadUrl": "https://archive.org/download/ZXSpectrumTOSECSetV20171101LadyEklipse/Games/%5BTAP%5D/1942%20%281986%29%28Elite%20Systems%29.zip",
+      "workingDownloadUrls": [
+        "https://archive.org/download/ZXSpectrumTOSECSetV20171101LadyEklipse/Games/%5BTAP%5D/1942%20%281986%29%28Elite%20Systems%29.zip",
+        "https://archive.org/download/zx_1942_1986_Elite_Systems/1942_1986_Elite_Systems.z80"
+      ],
+      "format": ".zip",
+      "downloadSource": "tosec",
+      "softLibraryIdentifier": "zx_1942_1986_Elite_Systems",
+      "tosecFileName": "Games/[TAP]/1942 (1986)(Elite Systems).zip",
+      "loadScreenUrl": "https://spectrumcomputing.co.uk/pub/sinclair/screens/load/123/scr/1942.scr",
+      "inGameUrl": "https://spectrumcomputing.co.uk/pub/sinclair/screens/in-game/123/1942.gif",
+      "coverUrl": "https://spectrumcomputing.co.uk/zxdb/sinclair/entries/0009297/1942_Front.jpg",
+      "additionalMediaUrls": [
+        "https://spectrumcomputing.co.uk/pub/sinclair/screens/load/123/scr/1942.scr",
+        "https://spectrumcomputing.co.uk/\u0027/SCRtoImage.php?SCR=pub/sinclair/screens/load/123/scr/1942.scr\u0026border=0\u0027",
+        "https://spectrumcomputing.co.uk/pub/sinclair/screens/in-game/123/1942.gif",
+        "https://spectrumcomputing.co.uk/\u0027/pub/sinclair/screens/in-game/123/1942.gif\u0027",
+        "https://spectrumcomputing.co.uk/zxdb/sinclair/entries/0009297/1942_Front.jpg",
+        "https://spectrumcomputing.co.uk/\u0027/zxdb/sinclair/entries/0009297/1942_Front.jpg\u0027",
+        "https://spectrumcomputing.co.uk/zxdb/sinclair/entries/0009297/1942_Media.jpg",
+        "https://spectrumcomputing.co.uk/\u0027/zxdb/sinclair/entries/0009297/1942_Media.jpg\u0027",
+        "https://spectrumcomputing.co.uk/pub/sinclair/games-maps/123/1942.png",
+        "https://spectrumcomputing.co.uk/\u0027/img/file_types/map.png\u0027",
+        "https://spectrumcomputing.co.uk/pub/sinclair/games-adverts/123/1942.jpg",
+        "https://spectrumcomputing.co.uk/\u0027/pub/sinclair/games-adverts/123/1942.jpg\u0027",
+        "https://spectrumcomputing.co.uk/pub/sinclair/games-adverts/123/1942_2.jpg",
+        "https://spectrumcomputing.co.uk/\u0027/pub/sinclair/games-adverts/123/1942_2.jpg\u0027",
+        "https://spectrumcomputing.co.uk/zxdb/sinclair/entries/0009297/1942(Encore).jpg",
+        "https://spectrumcomputing.co.uk/\u0027/zxdb/sinclair/entries/0009297/1942(Encore",
+        "https://spectrumcomputing.co.uk/zxdb/sinclair/entries/0009297/1942(Encore)_Back.jpg",
+        "https://spectrumcomputing.co.uk/zxdb/sinclair/entries/0009297/1942(Encore)_Media.jpg",
+        "https://spectrumcomputing.co.uk/zxdb/sinclair/entries/0009297/1942(Encore)_Media_2.jpg",
+        "https://spectrumcomputing.co.uk/pub/sinclair/games-inlays/Rereleases/123/1942(MCMSoftwareS.A.).jpg",
+        "https://spectrumcomputing.co.uk/\u0027/pub/sinclair/games-inlays/Rereleases/123/1942(MCMSoftwareS.A.",
+        "https://spectrumcomputing.co.uk/pub/sinclair/games-inlays/Rereleases/123/1942(ZafiChip).jpg",
+        "https://spectrumcomputing.co.uk/\u0027/pub/sinclair/games-inlays/Rereleases/123/1942(ZafiChip",
+        "https://spectrumcomputing.co.uk/pub/sinclair/games-adverts/123/1942(ZafiChip).jpg",
+        "https://spectrumcomputing.co.uk/\u0027/pub/sinclair/games-adverts/123/1942(ZafiChip",
+        "https://spectrumcomputing.co.uk/pub/sinclair/games-inlays/Rereleases/123/1942(ZCobra).jpg",
+        "https://spectrumcomputing.co.uk/\u0027/pub/sinclair/games-inlays/Rereleases/123/1942(ZCobra"
+      ],
+      "lastPlayedUtc": "2026-11-24T04:30:22.6494513+00:00",
+      "updatedUtc": "2026-11-24T04:30:22.6494513+00:00"
+    },
+    "zx-spectrum:sc:5898": {
+      "id": "sc-5898",
+      "title": "1942 Mission",
+      "scId": 5898,
+      "scSlug": "1942_Mission",
+      "scFile": "1942Mission",
+      "entryUrl": "https://spectrumcomputing.co.uk/entry/5898/ZX-Spectrum/1942_Mission",
+      "workingDownloadUrl": "https://spectrumcomputing.co.uk/pub/sinclair/games/123/1942Mission.tzx.zip",
+      "workingDownloadUrls": [
+        "https://spectrumcomputing.co.uk/pub/sinclair/games/123/1942Mission.tzx.zip"
+      ],
+      "format": ".tzx.zip",
+      "downloadSource": "spectrum-computing",
+      "loadScreenUrl": "https://spectrumcomputing.co.uk/pub/sinclair/screens/load/123/scr/1942Mission.scr",
+      "inGameUrl": "https://spectrumcomputing.co.uk/pub/sinclair/screens/in-game/123/1942Mission.gif",
+      "coverUrl": "https://spectrumcomputing.co.uk/zxdb/sinclair/entries/0005898/1942Mission_Front.jpg",
+      "additionalMediaUrls": [
+        "https://spectrumcomputing.co.uk/pub/sinclair/screens/load/123/scr/1942Mission.scr",
+        "https://spectrumcomputing.co.uk/\u0027/SCRtoImage.php?SCR=pub/sinclair/screens/load/123/scr/1942Mission.scr\u0026border=0\u0027",
+        "https://spectrumcomputing.co.uk/pub/sinclair/screens/in-game/123/1942Mission.gif",
+        "https://spectrumcomputing.co.uk/\u0027/pub/sinclair/screens/in-game/123/1942Mission.gif\u0027",
+        "https://spectrumcomputing.co.uk/zxdb/sinclair/entries/0005898/1942Mission_Front.jpg",
+        "https://spectrumcomputing.co.uk/\u0027/zxdb/sinclair/entries/0005898/1942Mission_Front.jpg\u0027",
+        "https://spectrumcomputing.co.uk/zxdb/sinclair/entries/0005898/1942Mission_Back.jpg",
+        "https://spectrumcomputing.co.uk/\u0027/zxdb/sinclair/entries/0005898/1942Mission_Back.jpg\u0027",
+        "https://spectrumcomputing.co.uk/zxdb/sinclair/entries/0005898/1942Mission_Tape.jpg",
+        "https://spectrumcomputing.co.uk/\u0027/zxdb/sinclair/entries/0005898/1942Mission_Tape.jpg\u0027"
+      ],
+      "lastPlayedUtc": "2026-11-23T20:37:40.4018103+00:00",
+      "updatedUtc": "2026-11-23T20:37:40.4018103+00:00"
+    }
+  }
+}

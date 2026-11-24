@@ -1,0 +1,5 @@
+Amstrad have kindly given their permission for the redistribution of their
+copyrighted material but retain that copyright.
+
+This notice covers the ZX Spectrum 48K and 128K system ROM images used by
+MULTIEMULADOR. The ROM code itself is not sold; only the emulator software is.

@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "platforms": [
+    { "id": "zx-spectrum", "name": "ZX Spectrum", "catalogActive": true },
+    { "id": "amstrad-cpc", "name": "Amstrad CPC", "catalogActive": false },
+    { "id": "msx", "name": "MSX", "catalogActive": false }
+  ]
+}
