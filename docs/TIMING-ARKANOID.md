@@ -36,3 +36,29 @@ Ninguno de los cinco de `EMULADORES/README.md` parchea Arkanoid por título:
 ## Tests
 
 - `ArkanoidPaddleTests`, `ArkanoidLoadPipelineTests`, `FloatingBusTests`
+
+## Pendiente — FX / beeper (abierto)
+
+**Estado: no resuelto.** En partida el usuario sigue sin oír los efectos de sonido de Arkanoid, mientras otros juegos sí tienen FX audibles.
+
+### Qué sí está bien (medido / contrastado)
+
+- Host de audio OK (PCM16; otros títulos suenan).
+- El núcleo genera `OUT (FE)` / energía AC en el beeper en diagnósticos (`F070`…); `MuteBeeper` no aplica en partida.
+- Pala y ritmo: FB Fuse 14338 + `PartialTStates`, contención I/O ULA, sync 1×/frame (FB lock tras wait + margen del doble `CALL 848F`).
+
+### Intentos que no cerraron el hueco percibido
+
+| Enfoque | Efecto colateral |
+|---------|------------------|
+| Latch FB “una vez/frame” agresivo | Ritmo OK, FX muy reducidos / silencio |
+| Parche wait `848F` → trampolín `EBA4` | Rompe doble `CALL` `@8E8C`; silencea beeper |
+| Skip-to-frame-end en re-wait | Mata CPU del FX del resto del frame |
+| Throttle host / FB lock diferido | Mejora sync; el usuario sigue sin oír FX |
+| Solo contención I/O Fuse | Energía en buffer; ritmo variable; FX no percibidos |
+
+### Pista para retomar (sin implementar ahora)
+
+Los cinco emuladores de referencia **no** parchean Arkanoid: FB + contención I/O bastan allí. La discrepancia puede estar en el **pipeline host** (bomba 882 muestras vs ráfagas del beeper), en el **orden wait/sonido** del bucle del juego bajo nuestro lock, o en un detalle fino de fase del FB distinto a Spectaculator. Contrastar de nuevo con Spectaculator lado a lado y trazar `EAR` edges solo en frames con impacto de bola.
+
+**No seguir iterando parches por título hasta tener esa evidencia.**

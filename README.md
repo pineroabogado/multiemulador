@@ -58,6 +58,10 @@ Incluyen regresión de **Arkanoid** (pala / pipeline FlashLoad), floating bus y 
 | [docs/TIMING-ARKANOID.md](docs/TIMING-ARKANOID.md) | Pala, ritmo 1×, FX y sync vsync |
 | [docs/REFERENCE-EMULATORS.md](docs/REFERENCE-EMULATORS.md) | Lista de emuladores usados como referencia |
 
+### Pendiente conocido
+
+- **Arkanoid — FX / beeper:** el sonido de efectos en partida sigue sin oírse de forma fiable (otros juegos sí). Detalle y intentos fallidos en [docs/TIMING-ARKANOID.md](docs/TIMING-ARKANOID.md#pendiente--fx--beeper-abierto).
+
 ## Legal — ROMs de sistema
 
 Amstrad have kindly given their permission for the redistribution of their copyrighted material but retain that copyright.

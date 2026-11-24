@@ -71,7 +71,7 @@
         "InstantFlashIffOn",
         "HealthRetrySibling"
       ],
-      "notes": "FB Fuse 14338 + IO contend OUT FE. VsyncLatch=FB lock tras wait+doble CALL 848F (1×/frame, beeper OK).",
+      "notes": "FB Fuse 14338 + IO contend OUT FE. VsyncLatch=FB lock tras wait+doble CALL 848F (1×/frame). PENDIENTE: FX beeper en partida no audible (ver docs/TIMING-ARKANOID.md).",
       "lastSuccessUtc": "2026-11-24T00:00:00+00:00",
       "successCount": 1
     },
